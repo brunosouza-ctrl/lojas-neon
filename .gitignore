@@ -1,0 +1,10 @@
+# sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# arquivos de trabalho que nao vao para o site
+*.psd
+*.ai
+*.fig
+*~
