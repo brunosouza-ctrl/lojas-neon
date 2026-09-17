@@ -16,6 +16,7 @@ param(
   [string]$Servidor = "",
   [string]$Usuario = "",
   [string]$PastaRemota = "web",
+  [string]$Apenas = "",
   [switch]$Listar
 )
 
@@ -89,6 +90,13 @@ if ($Listar) {
 
 $arquivos = Get-ChildItem -Path $local -Recurse -File
 $pastas = Get-ChildItem -Path $local -Recurse -Directory
+
+# -Apenas envia so o que casar com o texto, util para corrigir um arquivo so
+if ($Apenas) {
+  $arquivos = $arquivos | Where-Object { $_.Name -like $Apenas -or $_.FullName -like $Apenas }
+  $pastas = @()
+  if (-not $arquivos) { Write-Host "Nada casou com $Apenas" -ForegroundColor Yellow; exit 1 }
+}
 
 Write-Host ""
 Write-Host "Enviando $($arquivos.Count) arquivos para $base" -ForegroundColor Cyan
