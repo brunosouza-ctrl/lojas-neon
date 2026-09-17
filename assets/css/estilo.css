@@ -143,15 +143,56 @@ header{position:sticky;top:0;z-index:80;background:#fff;border-bottom:1px solid 
   .hero-txt{max-width:52%}
   .hero p{font-size:1rem}
 }
+/* o selo so existe no celular */
+.hero-selo{display:none}
+
+/* Celular: foto em cima, com a borda esquerda arredondada e um arco amarelo
+   por tras (o mesmo parentese da logo), selo do Google encostado na foto
+   e o texto embaixo. A entrada e so CSS, com fill-mode both: se a animacao
+   nao rodar, tudo fica visivel do mesmo jeito. */
 @media(max-width:820px){
   .hero{display:flex;flex-direction:column}
-  .hero .wrap{order:1;min-height:0;padding:46px 0 0}
+  .hero-visual{order:1;position:relative;width:auto;height:auto;aspect-ratio:4/3.4;z-index:1;
+    --raio:clamp(76px,22vw,150px)}
+  .hero-arco{display:block;clip-path:none;border-radius:var(--raio) 0 0 var(--raio)}
+  .hero-visual img{clip-path:none;left:9px;width:calc(100% - 9px);object-position:center 40%;
+    border-radius:var(--raio) 0 0 var(--raio)}
+
+  .hero-selo{order:2;position:relative;z-index:5;align-self:center;margin-top:-21px;
+    display:inline-flex;align-items:center;gap:9px;padding:11px 19px;border-radius:999px;
+    background:var(--azul-esc);border:1px solid rgba(255,199,44,.45);color:#fff;
+    font-size:.8rem;font-weight:700;letter-spacing:.02em;white-space:nowrap;
+    box-shadow:0 10px 24px -12px rgba(8,20,64,.8)}
+  .hero-estrelas{display:inline-flex;gap:1px;color:var(--amarelo)}
+
+  .hero .wrap{order:3;min-height:0;padding:28px 0 46px}
   .hero-txt{max-width:100%}
   .hero p{max-width:100%}
-  .hero-visual{order:2;position:relative;width:auto;height:auto;aspect-ratio:8/5;margin:34px 0 0;z-index:1}
-  .hero-arco{display:none}
-  .hero-visual img{clip-path:none}
+  .hero h1 br{display:none}
 }
+/* tablet em pe: a foto larga do desktop, senao ela sozinha ocupa a tela */
+@media(min-width:601px) and (max-width:820px){
+  .hero-visual{aspect-ratio:16/10}
+}
+@media(max-width:360px){
+  .faixa-topo .ponto,.faixa-topo .ponto + span{display:none}
+  .hero-selo{font-size:.74rem;padding:10px 15px;gap:7px}
+  .hero-estrelas svg{width:11px;height:11px}
+}
+@media(max-width:820px) and (prefers-reduced-motion:no-preference){
+  .hero-visual img{animation:heroZoom 1.4s cubic-bezier(.22,.61,.36,1) both}
+  .hero-arco{animation:heroArco .9s cubic-bezier(.22,.61,.36,1) .25s both}
+  .hero-selo{animation:heroSobe .7s cubic-bezier(.22,.61,.36,1) .45s both}
+  .hero-txt > *{animation:heroSobe .7s cubic-bezier(.22,.61,.36,1) both}
+  .hero-txt > :nth-child(1){animation-delay:.52s}
+  .hero-txt > :nth-child(2){animation-delay:.6s}
+  .hero-txt > :nth-child(3){animation-delay:.66s}
+  .hero-txt > :nth-child(4){animation-delay:.74s}
+  .hero-txt > :nth-child(5){animation-delay:.82s}
+}
+@keyframes heroZoom{from{opacity:0;transform:scale(1.08)}to{opacity:1;transform:scale(1)}}
+@keyframes heroArco{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+@keyframes heroSobe{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
 /* =========================================================
    FAIXA DE APOIO
@@ -230,8 +271,10 @@ section{padding:74px 0}
 .prod{border:1px solid var(--cinza-borda);border-radius:16px;background:#fff;padding:14px;
   display:flex;flex-direction:column;transition:transform .22s ease, box-shadow .22s ease, border-color .22s}
 .prod:hover{transform:translateY(-4px);box-shadow:var(--sombra-lg);border-color:transparent}
-.prod-foto{position:relative;aspect-ratio:1/.82;border-radius:11px;overflow:hidden;background:var(--cinza-10)}
-.prod-foto img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease}
+.prod-foto{position:relative;aspect-ratio:1/.82;border-radius:11px;overflow:hidden;background:#fff;
+  border:1px solid var(--cinza-borda)}
+/* foto de produto real, ja vem com fundo branco e respiro: nunca cortar */
+.prod-foto img{width:100%;height:100%;object-fit:contain;padding:6px;transition:transform .45s ease}
 .prod:hover .prod-foto img{transform:scale(1.05)}
 .prod-mais{position:absolute;top:11px;right:11px;width:34px;height:34px;border-radius:50%;border:0;
   background:var(--amarelo);color:var(--grafite);cursor:pointer;display:grid;place-items:center;
@@ -243,11 +286,25 @@ section{padding:74px 0}
 .prod h3{font-size:1.03rem;font-weight:700;color:var(--grafite);margin:6px 0 8px;line-height:1.3;
   letter-spacing:-.02em;flex:1}
 .prod-disp{font-size:.85rem;color:var(--cinza);margin-bottom:16px}
+.prod-unid{font-size:.78rem;color:var(--cinza);font-weight:500}
 .prod-disp b{font-family:'Archivo';font-weight:900;font-size:1.1rem;color:var(--azul-esc);letter-spacing:-.03em}
 .prod .btn{width:100%}
 @media(max-width:1080px){.grid-prod{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:820px){.grid-prod{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.grid-prod{grid-template-columns:1fr}}
+/* celular: duas colunas, senao cada produto ocupa a tela inteira */
+@media(max-width:480px){
+  .grid-prod{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px !important}
+  .prod{padding:8px !important;border-radius:12px !important}
+  .prod-foto{aspect-ratio:1/1;border-radius:9px}
+  .prod-foto img{padding:4px}
+  .prod-mais{top:6px;right:6px;width:30px;height:30px}
+  .prod-corpo{padding:10px 2px 2px}
+  .prod-cat{font-size:.7rem}
+  .prod h3{font-size:.84rem !important;margin:4px 0 6px;line-height:1.28}
+  .prod-disp{font-size:.74rem;margin-bottom:10px}
+  .prod-disp b{font-size:1rem}
+  .prod .btn{font-size:.74rem;padding:10px 6px;white-space:normal;line-height:1.2;border-radius:9px}
+}
 
 .vazio{text-align:center;padding:70px 20px;color:var(--cinza)}
 .vazio h3{font-size:1.35rem;color:var(--azul-esc);margin-bottom:10px}
@@ -358,6 +415,7 @@ section{padding:74px 0}
 .loja{border:1px solid var(--cinza-borda);border-radius:20px;overflow:hidden;background:#fff}
 .loja-foto{aspect-ratio:16/8;position:relative;overflow:hidden;background:var(--cinza-10)}
 .loja-foto img{width:100%;height:100%;object-fit:cover}
+.loja-mapa{width:100%;height:100%;border:0;display:block}
 .loja-etiqueta{position:absolute;top:15px;left:15px;background:var(--azul);color:#fff;
   font-family:'Archivo';font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
   padding:7px 13px;border-radius:7px}
@@ -497,13 +555,14 @@ footer a:hover{color:var(--amarelo)}
   .logo-svg{height:42px}
   .logo-rodape .logo-svg{height:50px}
 
-  .hero .wrap{padding:40px 0 0}
+  .hero .wrap{padding:26px 0 42px}
   .hero h1{font-size:2.15rem;font-stretch:88%}
   .hero h1 br{display:none}
+  .hero-risca{margin:22px 0 18px}
   .hero p{font-size:1rem;margin-bottom:26px}
   .hero-ctas{gap:10px}
   .hero-ctas .btn{flex:1 1 auto;justify-content:center}
-  .hero-visual{margin:30px 0 0}
+  .hero-local{margin-top:24px}
 
   .apoio li{padding:15px 12px;font-size:.82rem;gap:9px}
 
@@ -581,3 +640,29 @@ footer a:hover{color:var(--amarelo)}
   .busca-menu svg{position:absolute;left:16px;top:calc(50% - 1px);transform:translateY(-50%);
     color:#98A0B4;pointer-events:none}
 }
+
+/* =========================================================
+   CABECALHO AZUL
+   Mesmo azul da faixa e do hero, sem borda: o topo inteiro
+   vira um bloco so e o cabecalho praticamente some na home.
+   ========================================================= */
+header{background:var(--azul);border-bottom:0}
+.nav-topo a{color:rgba(255,255,255,.9)}
+.nav-topo a:hover,.nav-topo a.atual{color:var(--amarelo)}
+.menu-botao{color:#fff}
+.busca-topo input,.busca-menu input{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff}
+.busca-topo input::placeholder,.busca-menu input::placeholder{color:rgba(255,255,255,.66)}
+.busca-topo svg,.busca-menu svg{color:rgba(255,255,255,.7)}
+.busca-topo input:focus,.busca-menu input:focus{background:#fff;color:var(--grafite);border-color:var(--amarelo);
+  box-shadow:0 0 0 4px rgba(255,199,44,.25)}
+.zap-redondo{box-shadow:none}
+@media(max-width:1040px){
+  .nav-topo{background:var(--azul);border-bottom:1px solid rgba(255,255,255,.12);box-shadow:0 18px 30px -18px rgba(8,20,64,.7)}
+  .nav-topo a{border-bottom-color:rgba(255,255,255,.12)}
+}
+@media(max-width:720px){
+  .busca-menu{border-bottom-color:rgba(255,255,255,.12)}
+}
+
+/* 8 posts em 3 colunas deixariam 2 sobrando: no celular ficam 6 */
+@media(max-width:560px){.insta-grid .insta-item:nth-child(n+7){display:none}}

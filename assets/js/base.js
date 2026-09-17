@@ -23,6 +23,26 @@
   }
 
   /* ---------------------------------------------------------
+     1b. Formularios que viram mensagem de WhatsApp
+     O site nao tem servidor: cada campo preenchido entra na mensagem
+     com o texto do proprio rotulo, e o WhatsApp abre pronto para enviar.
+     --------------------------------------------------------- */
+  [].forEach.call(document.querySelectorAll('form.form-zap'), function (form) {
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var linhas = [form.getAttribute('data-titulo') || 'Olá!', ''];
+      [].forEach.call(form.querySelectorAll('input, select, textarea'), function (campo) {
+        var valor = (campo.value || '').trim();
+        if (!valor) return;
+        var rotulo = form.querySelector('label[for="' + campo.id + '"]');
+        linhas.push((rotulo ? rotulo.textContent.trim() : campo.name) + ': ' + valor);
+      });
+      var url = 'https://wa.me/5513996061615?text=' + encodeURIComponent(linhas.join('\n'));
+      window.open(url, '_blank', 'noopener');
+    });
+  });
+
+  /* ---------------------------------------------------------
      2. Entrada dos elementos ao rolar
      --------------------------------------------------------- */
   function ligarEntradas() {
@@ -246,5 +266,8 @@
     iniciar();
   }
 
-  window.NEON = { fundo3D: ligarFundo3D, entradas: ligarEntradas };
+  /* junta, nao substitui: o config.js ja pendurou coisas aqui */
+  window.NEON = window.NEON || {};
+  window.NEON.fundo3D = ligarFundo3D;
+  window.NEON.entradas = ligarEntradas;
 })();
