@@ -20,8 +20,12 @@ DirectoryIndex index.html
   # 1. visita que chegou por http vai para https.
   #    Precisa vir antes das outras: a regra do endereco limpo termina em [L]
   #    e o processamento pararia ali.
+  #    O endereco e remontado a partir do pedido original (THE_REQUEST) porque
+  #    o servidor ja resolve /produtos para produtos.html antes do rewrite, e
+  #    sem isso a visita daria dois saltos ate chegar no endereco limpo.
   RewriteCond %{HTTP:X-Forwarded-Proto} =http
-  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+  RewriteCond %{THE_REQUEST} \s/+([^?\s]*)
+  RewriteRule ^ https://%{HTTP_HOST}/%1 [R=301,L]
 
   # 2. /produtos.html manda para /produtos, para o Google nao ver duas paginas iguais
   RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.html[\s?] [NC]
