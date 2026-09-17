@@ -1,0 +1,53 @@
+[
+  {"item": 1,  "ean": "7897381600577", "nome": "Cabo flexível 1,5mm preto, rolo 100m", "marca": "Sil", "categoria": "Elétrica", "unidade": "un", "preco": 199.99, "busca": "cabo flexivel 1,5mm preto sil rolo"},
+  {"item": 2,  "ean": "7897381614000", "nome": "Cabo flexível 1,5mm preto, por metro", "marca": "Sil", "categoria": "Elétrica", "unidade": "m", "preco": 2.31, "busca": "cabo flexivel 1,5mm preto sil", "mesma_foto_que": "7897381600577"},
+  {"item": 3,  "ean": "7897381600621", "nome": "Cabo flexível 2,5mm preto, rolo 100m", "marca": "Sil", "categoria": "Elétrica", "unidade": "un", "preco": 296.99, "busca": "cabo flexivel 2,5mm preto sil rolo"},
+  {"item": 4,  "ean": "7897381614086", "nome": "Cabo flexível 2,5mm preto, por metro", "marca": "Sil", "categoria": "Elétrica", "unidade": "m", "preco": 3.69, "busca": "cabo flexivel 2,5mm preto sil", "mesma_foto_que": "7897381600621"},
+  {"item": 5,  "ean": "7897381600676", "nome": "Cabo flexível 4mm preto, rolo 100m", "marca": "Sil", "categoria": "Elétrica", "unidade": "un", "preco": 514.90, "busca": "cabo flexivel 4mm preto sil rolo"},
+  {"item": 6,  "ean": "7897381636149", "nome": "Cabo flexível 4mm preto, por metro", "marca": "Sil", "categoria": "Elétrica", "unidade": "m", "preco": 5.99, "busca": "cabo flexivel 4mm preto sil", "mesma_foto_que": "7897381600676"},
+  {"item": 7,  "ean": "7897381600720", "nome": "Cabo flexível 6mm preto, rolo 100m", "marca": "Sil", "categoria": "Elétrica", "unidade": "un", "preco": 769.99, "busca": "cabo flexivel 6mm preto sil rolo"},
+  {"item": 8,  "ean": "7897381636194", "nome": "Cabo flexível 6mm preto, por metro", "marca": "Sil", "categoria": "Elétrica", "unidade": "m", "preco": 8.99, "busca": "cabo flexivel 6mm preto sil", "mesma_foto_que": "7897381600720"},
+  {"item": 9,  "ean": "7897381636248", "nome": "Cabo flexível 10mm preto, por metro", "marca": "Sil", "categoria": "Elétrica", "unidade": "m", "preco": 16.90, "busca": "cabo flexivel 10mm preto sil"},
+  {"item": 10, "ean": "7897381636293", "nome": "Cabo flexível 16mm preto, por metro", "marca": "Sil", "categoria": "Elétrica", "unidade": "m", "preco": 28.50, "busca": "cabo flexivel 16mm preto sil"},
+
+  {"item": 11, "ean": "7891435933581", "nome": "Conjunto interruptor simples 6A 250V Aria branco", "marca": "Tramontina", "categoria": "Elétrica", "unidade": "un", "preco": 8.70, "busca": "conjunto interruptor simples aria branco tramontina"},
+  {"item": 12, "ean": "7891435937626", "nome": "Conjunto interruptor paralelo 6A 250V Aria branco", "marca": "Tramontina", "categoria": "Elétrica", "unidade": "un", "preco": 14.40, "busca": "conjunto interruptor paralelo aria branco tramontina"},
+  {"item": 13, "ean": "7891435932577", "nome": "Conjunto tomada 2P+T 10A 250V Aria branco", "marca": "Tramontina", "categoria": "Elétrica", "unidade": "un", "preco": 7.50, "busca": "conjunto tomada 10A aria branco tramontina"},
+  {"item": 14, "ean": "7891435933598", "nome": "Conjunto tomada 2P+T 20A 250V Aria branco", "marca": "Tramontina", "categoria": "Elétrica", "unidade": "un", "preco": 8.90, "busca": "conjunto tomada 20A aria branco tramontina"},
+  {"item": 15, "ean": "7891435933888", "nome": "Conjunto tomada dupla 2P+T 10A 250V Aria branco", "marca": "Tramontina", "categoria": "Elétrica", "unidade": "un", "preco": 15.90, "busca": "conjunto tomada dupla 10A aria branco tramontina"},
+  {"item": 17, "ean": "7891435937916", "nome": "Conjunto 2 interruptores simples 6A 250V Aria branco", "marca": "Tramontina", "categoria": "Elétrica", "unidade": "un", "preco": 14.99, "busca": "conjunto 2 interruptores simples aria branco tramontina"},
+  {"item": 18, "ean": "7891435938081", "nome": "Conjunto interruptor simples 6A e tomada 2P+T 10A Aria branco", "marca": "Tramontina", "categoria": "Elétrica", "unidade": "un", "preco": 14.06, "busca": "conjunto interruptor simples tomada 10A aria branco tramontina"},
+
+  {"item": 19, "ean": "7890203455379", "nome": "Fita isolante Imperial Slim 18mm x 5m", "marca": "3M", "categoria": "Elétrica", "unidade": "un", "preco": 5.90, "busca": "fita isolante imperial slim 18mm 5m 3m"},
+  {"item": 20, "ean": "7891040106363", "nome": "Fita isolante Imperial Slim 18mm x 10m", "marca": "3M", "categoria": "Elétrica", "unidade": "un", "preco": 9.90, "busca": "fita isolante imperial slim 18mm 10m 3m"},
+  {"item": 21, "ean": "7891040105502", "nome": "Fita isolante Imperial Slim 18mm x 20m", "marca": "3M", "categoria": "Elétrica", "unidade": "un", "preco": 14.90, "busca": "fita isolante imperial slim 18mm 20m 3m"},
+  {"item": 22, "ean": "7890203418060", "nome": "Fita isolante Scotch 33+ 19mm x 20m", "marca": "3M", "categoria": "Elétrica", "unidade": "pc", "preco": 39.90, "busca": "fita isolante scotch 33+ 19mm 20m 3m"},
+
+  {"item": 23, "ean": "7898586133563", "nome": "Lâmpada LED bulbo 9W 6500K bivolt", "marca": "Foxlux", "categoria": "Iluminação", "unidade": "un", "preco": 3.99, "busca": "lampada led bulbo 9w 6500k foxlux"},
+  {"item": 24, "ean": "7898586132146", "nome": "Lâmpada LED bulbo 15W 6500K bivolt", "marca": "Foxlux", "categoria": "Iluminação", "unidade": "un", "preco": 10.95, "busca": "lampada led bulbo 15w 6500k foxlux"},
+  {"item": 25, "ean": "7898586132108", "nome": "Lâmpada LED alta potência 20W 6500K bivolt", "marca": "Foxlux", "categoria": "Iluminação", "unidade": "un", "preco": 14.90, "busca": "lampada led alta potencia 20w foxlux"},
+  {"item": 26, "ean": "7898586132115", "nome": "Lâmpada LED alta potência 30W 6500K bivolt", "marca": "Foxlux", "categoria": "Iluminação", "unidade": "un", "preco": 24.90, "busca": "lampada led alta potencia 30w foxlux"},
+  {"item": 27, "ean": "7898586132122", "nome": "Lâmpada LED alta potência 40W 6500K bivolt", "marca": "Foxlux", "categoria": "Iluminação", "unidade": "un", "preco": 34.90, "busca": "lampada led alta potencia 40w foxlux"},
+  {"item": 28, "ean": "7898586134454", "nome": "Lâmpada LED alta potência 50W 6500K bivolt", "marca": "Foxlux", "categoria": "Iluminação", "unidade": "un", "preco": 41.90, "busca": "lampada led alta potencia 50w foxlux"},
+  {"item": 29, "ean": "7898586137035", "nome": "Lâmpada LED alta potência 100W 6500K bivolt", "marca": "Foxlux", "categoria": "Iluminação", "unidade": "un", "preco": 109.90, "busca": "lampada led alta potencia 100w foxlux"},
+
+  {"item": 30, "ean": "7897192714494", "nome": "Ventilador de teto Citrino 127V 130W 3 pás branco", "marca": "Tron", "categoria": "Ventilação", "unidade": "pc", "preco": 299.99, "busca": "ventilador citrino tron 3 pas branco"},
+  {"item": 31, "ean": "7908412519208", "nome": "Ventilador de mesa 40cm 127V 140W preto", "marca": "Elgin", "categoria": "Ventilação", "unidade": "un", "preco": 209.99, "busca": "ventilador mesa 40cm preto elgin 140w"},
+
+  {"item": 32, "ean": "7908649631889", "nome": "Ducha Ballerina 3 temperaturas 220V 5350W branca", "marca": "Zagonel", "categoria": "Chuveiros", "unidade": "un", "preco": 52.90, "busca": "ducha ballerina zagonel 3 temperaturas"},
+  {"item": 33, "ean": "7897273200335", "nome": "Ducha Ideale Plus 4 temperaturas 220V 6800W branca", "marca": "Zagonel", "categoria": "Chuveiros", "unidade": "un", "preco": 69.90, "busca": "ducha ideale plus zagonel 4 temperaturas"},
+  {"item": 34, "ean": "7908649605637", "nome": "Ducha Moment eletrônica 220V 7500W branca", "marca": "Zagonel", "categoria": "Chuveiros", "unidade": "un", "preco": 132.90, "busca": "ducha moment eletronica zagonel 7500w"},
+  {"item": 38, "ean": "7896451824806", "nome": "Maxi Ducha 220V 5500W", "marca": "Lorenzetti", "categoria": "Chuveiros", "unidade": "un", "preco": 115.99, "busca": "maxi ducha lorenzetti 5500w"},
+  {"item": 39, "ean": "7896451844859", "nome": "Bella Ducha Ultra 220V 6800W branca", "marca": "Lorenzetti", "categoria": "Chuveiros", "unidade": "un", "preco": 119.90, "busca": "bella ducha ultra lorenzetti 6800w"},
+  {"item": 40, "ean": "7896451879035", "nome": "Ducha Loren Shower eletrônica 220V 7500W", "marca": "Lorenzetti", "categoria": "Chuveiros", "unidade": "un", "preco": 188.89, "busca": "ducha loren shower eletronica lorenzetti 7500w"},
+
+  {"item": 37, "ean": "7897801301596", "nome": "Sifão multiuso simples com tubo extensível", "marca": "Krona", "categoria": "Hidráulica", "unidade": "un", "preco": 7.90, "busca": "sifao multiuso simples tubo extensivel krona"},
+  {"item": 41, "ean": "7897613336946", "nome": "Fita veda rosca 18mm x 10m", "marca": "Tigre", "categoria": "Hidráulica", "unidade": "un", "preco": 3.81, "busca": "veda rosca 18mm 10m tigre"},
+  {"item": 42, "ean": "7897613336953", "nome": "Fita veda rosca 18mm x 25m", "marca": "Tigre", "categoria": "Hidráulica", "unidade": "un", "preco": 7.67, "busca": "veda rosca 18mm 25m tigre"},
+  {"item": 43, "ean": "7897613336960", "nome": "Fita veda rosca 18mm x 50m", "marca": "Tigre", "categoria": "Hidráulica", "unidade": "un", "preco": 15.10, "busca": "veda rosca 18mm 50m tigre"},
+
+  {"item": 35, "ean": "7898567700944", "nome": "Óleo desengripante spray 300ml", "marca": "Lub Fast", "categoria": "Químicos", "unidade": "un", "preco": 8.50, "busca": "oleo desengripante spray 300ml lub fast"},
+  {"item": 36, "ean": "7898965442477", "nome": "Cola selante PU40 branca 400g", "marca": "Cibraflex", "categoria": "Químicos", "unidade": "un", "preco": 13.90, "busca": "cola selante pu40 branco 400g cibraflex"},
+
+  {"item": 44, "ean": "9000000049765", "nome": "Conector de porcelana trifásico 10mm", "marca": "Foxlux", "categoria": "Elétrica", "unidade": "un", "preco": 3.90, "busca": "conector porcelana tripolar 10mm foxlux"}
+]
