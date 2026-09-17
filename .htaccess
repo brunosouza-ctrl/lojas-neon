@@ -5,8 +5,7 @@
 # 2. Cache longo para imagens, css e js (eles ja levam ?v=NN na chamada)
 # 3. Compressao de texto
 #
-# O redirecionamento para https esta no fim, comentado: so ligar depois
-# que o certificado estiver valendo, senao o site sai do ar.
+# 4. Tudo em https: o certificado ja esta valendo.
 # =========================================================
 
 DirectoryIndex index.html
@@ -41,8 +40,9 @@ DirectoryIndex index.html
   AddOutputFilterByType DEFLATE application/javascript application/json image/svg+xml
 </IfModule>
 
-# Depois que o cadeado aparecer, tirar o # das tres linhas abaixo e subir de novo.
-# <IfModule mod_rewrite.c>
-#   RewriteCond %{HTTPS} !=on
-#   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
-# </IfModule>
+# Certificado Let's Encrypt ativo desde 17/09/2026: quem entrar por http vai para https.
+<IfModule mod_rewrite.c>
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
