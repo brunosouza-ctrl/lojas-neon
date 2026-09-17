@@ -8,3 +8,7 @@ desktop.ini
 *.ai
 *.fig
 *~
+
+# pacote gerado para subir na hospedagem
+publicar/
+lojas-neon-publicar.zip
