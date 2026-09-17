@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,700..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/estilo.css?v=39">
+<link rel="stylesheet" href="assets/css/estilo.css?v=44">
 </head>
 <body>
 
@@ -37,7 +37,7 @@
 
 <header>
   <div class="wrap head-linha">
-    <a href="index.html" class="logo" aria-label="Lojas Neon, ir para o início">
+    <a href="/" class="logo" aria-label="Lojas Neon, ir para o início">
       <svg class="logo-svg" viewBox="18 4 328 128" role="img" aria-label="Lojas Neon, elétrica e hidráulica">
         <g transform="translate(10,0) skewX(-9)">
           <g class="logo-arco" fill="none" stroke-width="11" stroke-linecap="round">
@@ -52,21 +52,21 @@
       </svg>
     </a>
 
-    <form class="busca-topo" action="produtos.html" method="get">
+    <form class="busca-topo" action="/produtos" method="get">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input type="search" name="busca" placeholder="O que você precisa?" aria-label="Buscar produtos">
       <button type="submit" aria-label="Buscar"></button>
     </form>
 
     <nav class="nav-topo" id="navTopo">
-      <form class="busca-menu" action="produtos.html" method="get">
+      <form class="busca-menu" action="/produtos" method="get">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <input type="search" name="busca" placeholder="O que você precisa?" aria-label="Buscar produtos">
       </form>
-      <a href="produtos.html">Produtos</a>
-      <a href="obra.html">Monte sua Obra</a>
-      <a href="profissional.html">Sou Profissional</a>
-      <a href="lojas.html">Nossas lojas</a>
+      <a href="/produtos">Produtos</a>
+      <a href="/obra">Monte sua Obra</a>
+      <a href="/profissional">Sou Profissional</a>
+      <a href="/lojas">Nossas lojas</a>
     </nav>
 
     <a href="https://wa.me/5513996061615" target="_blank" rel="noopener" class="zap-redondo" aria-label="WhatsApp">
@@ -84,7 +84,9 @@
   <div class="hero-visual">
     <span class="hero-arco"></span>
     <picture>
+      <source media="(max-width:600px)" type="image/webp" srcset="assets/img/hero-mobile.webp">
       <source media="(max-width:600px)" srcset="assets/img/hero-mobile.jpg">
+      <source type="image/webp" srcset="assets/img/hero.webp">
       <img src="assets/img/hero.jpg" width="1586" height="992" fetchpriority="high"
            alt="Atendente da Lojas Neon no balcão, com ferramentas, tubos e material elétrico">
     </picture>
@@ -100,15 +102,15 @@
 
   <div class="wrap">
     <div class="hero-txt">
-      <h1>Tudo para <br>construir, reformar <br>e resolver.</h1>
+      <h1>Elétrica e <br>hidráulica, resolvidas <br>na hora.</h1>
       <div class="hero-risca"></div>
-      <p>Do fio aos tubos, encontre materiais elétricos, hidráulicos e ferramentas com atendimento de verdade.</p>
+      <p>Do fio aos tubos, você acha a peça certa, leva na hora e ainda sai sabendo como instalar.</p>
       <div class="hero-ctas">
         <a href="https://wa.me/5513996061615" target="_blank" rel="noopener" class="btn btn-amarelo">
           Pedir orçamento
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
         </a>
-        <a href="produtos.html" class="btn btn-branco-linha">
+        <a href="/produtos" class="btn btn-branco-linha">
           Ver produtos
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
         </a>
@@ -179,7 +181,7 @@
     </div>
 
     <div style="text-align:center;margin-top:38px">
-      <a href="produtos.html" class="btn btn-linha">
+      <a href="/produtos" class="btn btn-linha">
         Ver catálogo completo
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
       </a>
@@ -191,16 +193,16 @@
 <section style="padding-top:0">
   <div class="wrap">
     <div class="duplo" data-anim data-anim-filhos>
-      <a href="profissional.html" class="bloco b-azul">
-        <img src="assets/img/fotos/1609262825865-63bcaaf7fd.jpg" alt="Profissional em serviço" loading="lazy">
+      <a href="/profissional" class="bloco b-azul">
+        <picture><source srcset="assets/img/fotos/eletricista-painel.webp" type="image/webp"><img src="assets/img/fotos/eletricista-painel.jpg" alt="Eletricista trabalhando num quadro de disjuntores" loading="lazy"></picture>
         <span class="bloco-tag">Para quem vive da obra</span>
         <h3>Sou Profissional</h3>
         <p>Eletricista, encanador, instalador ou marido de aluguel. Cadastre-se e tenha preço por volume, atendimento prioritário e a lista separada antes de você chegar na loja.</p>
         <span class="btn btn-amarelo">Ver condições</span>
       </a>
 
-      <a href="obra.html" class="bloco b-escuro">
-        <img src="assets/img/fotos/1630683924997-fe27050a04.jpg" alt="Obra em andamento" loading="lazy">
+      <a href="/obra" class="bloco b-escuro">
+        <picture><source srcset="assets/img/fotos/encanador-tubos.webp" type="image/webp"><img src="assets/img/fotos/encanador-tubos.jpg" alt="Instalação hidráulica embaixo da pia" loading="lazy"></picture>
         <span class="bloco-tag">Elétrica e hidráulica</span>
         <h3>Monte sua Obra</h3>
         <p>Diga em que fase está a instalação elétrica ou hidráulica, ou mande sua lista. A gente monta o orçamento completo, com quantidade, preço fechado e prazo de entrega.</p>
@@ -217,21 +219,19 @@
       <div><h2>Marcas que trabalhamos</h2></div>
     </div>
   </div>
-  <!-- Quando chegarem os arquivos, trocar por:
-       <div class="marca-item"><img src="assets/marcas/lorenzetti.svg" alt="Lorenzetti"></div> -->
   <div class="esteira">
     <div class="esteira-trilho">
-      <div class="marca-item"><span>SIL</span></div>
-      <div class="marca-item"><span>FOXLUX</span></div>
-      <div class="marca-item"><span>TRAMONTINA</span></div>
-      <div class="marca-item"><span>LORENZETTI</span></div>
-      <div class="marca-item"><span>TIGRE</span></div>
-      <div class="marca-item"><span>ZAGONEL</span></div>
-      <div class="marca-item"><span>3M</span></div>
-      <div class="marca-item"><span>ELGIN</span></div>
-      <div class="marca-item"><span>KRONA</span></div>
-      <div class="marca-item"><span>TRON</span></div>
-      <div class="marca-item"><span>CIBRAFLEX</span></div>
+      <div class="marca-item"><img src="assets/marcas/sil.svg" alt="SIL" width="150" height="40" loading="lazy"></div>
+      <div class="marca-item"><img src="assets/marcas/foxlux.svg" alt="Foxlux" width="150" height="40" loading="lazy"></div>
+      <div class="marca-item"><img src="assets/marcas/tramontina.svg" alt="Tramontina" width="150" height="40" loading="lazy"></div>
+      <div class="marca-item"><img src="assets/marcas/lorenzetti.svg" alt="Lorenzetti" width="150" height="40" loading="lazy"></div>
+      <div class="marca-item"><img src="assets/marcas/tigre.svg" alt="Tigre" width="150" height="40" loading="lazy"></div>
+      <div class="marca-item"><img src="assets/marcas/zagonel.svg" alt="Zagonel" width="150" height="40" loading="lazy"></div>
+      <div class="marca-item"><img src="assets/marcas/3m.svg" alt="3M" width="150" height="40" loading="lazy"></div>
+      <div class="marca-item"><img src="assets/marcas/elgin.svg" alt="Elgin" width="150" height="40" loading="lazy"></div>
+      <div class="marca-item"><img src="assets/marcas/krona.svg" alt="Krona" width="150" height="40" loading="lazy"></div>
+      <div class="marca-item"><img src="assets/marcas/tron.svg" alt="Tron" width="150" height="40" loading="lazy"></div>
+      <div class="marca-item"><img src="assets/marcas/cibraflex.svg" alt="Cibraflex" width="150" height="40" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -268,14 +268,14 @@
           </a>
         </div>
         <div class="insta-grid">
-          <a class="insta-item" href="https://www.instagram.com/lojas_neon/p/DbvWexZgUf3/" target="_blank" rel="noopener"><img src="assets/img/insta/DbvWexZgUf3.jpg" alt="Furadeira de impacto Stanley 710W" width="480" height="480" loading="lazy"></a>
-          <a class="insta-item" href="https://www.instagram.com/lojas_neon/reel/DdRdocJRCC3/" target="_blank" rel="noopener"><img src="assets/img/insta/DdRdocJRCC3.jpg" alt="Atendente da Neon com spray e silicone" width="480" height="480" loading="lazy"></a>
-          <a class="insta-item" href="https://www.instagram.com/lojas_neon/reel/DZH-hKhBRDn/" target="_blank" rel="noopener"><img src="assets/img/insta/DZH-hKhBRDn.jpg" alt="Vídeo: é só um alicate" width="480" height="480" loading="lazy"></a>
-          <a class="insta-item" href="https://www.instagram.com/lojas_neon/p/Dbx67xZDIog/" target="_blank" rel="noopener"><img src="assets/img/insta/Dbx67xZDIog.jpg" alt="Alicate amperímetro Foxlux" width="480" height="480" loading="lazy"></a>
-          <a class="insta-item" href="https://www.instagram.com/lojas_neon/reel/DdJ6jM5Dt30/" target="_blank" rel="noopener"><img src="assets/img/insta/DdJ6jM5Dt30.jpg" alt="Vídeo com caixa d'água na loja" width="480" height="480" loading="lazy"></a>
-          <a class="insta-item" href="https://www.instagram.com/lojas_neon/p/DUIyISAEUF5/" target="_blank" rel="noopener"><img src="assets/img/insta/DUIyISAEUF5.jpg" alt="Como fazer comedouro pet com cano de PVC" width="480" height="480" loading="lazy"></a>
-          <a class="insta-item" href="https://www.instagram.com/lojas_neon/reel/Dc4BYLkRsK8/" target="_blank" rel="noopener"><img src="assets/img/insta/Dc4BYLkRsK8.jpg" alt="Vídeo com ventilador na loja" width="480" height="480" loading="lazy"></a>
-          <a class="insta-item" href="https://www.instagram.com/lojas_neon/p/DdTxKfUkTUd/" target="_blank" rel="noopener"><img src="assets/img/insta/DdTxKfUkTUd.jpg" alt="Feliz Dia do Cliente" width="480" height="480" loading="lazy"></a>
+          <a class="insta-item" href="https://www.instagram.com/lojas_neon/p/DbvWexZgUf3/" target="_blank" rel="noopener"><picture><source srcset="assets/img/insta/DbvWexZgUf3.webp" type="image/webp"><img src="assets/img/insta/DbvWexZgUf3.jpg" alt="Furadeira de impacto Stanley 710W" width="520" height="650" loading="lazy"></picture></a>
+          <a class="insta-item" href="https://www.instagram.com/lojas_neon/reel/DdRdocJRCC3/" target="_blank" rel="noopener"><picture><source srcset="assets/img/insta/DdRdocJRCC3.webp" type="image/webp"><img src="assets/img/insta/DdRdocJRCC3.jpg" alt="Atendente da Neon com spray e silicone" width="520" height="650" loading="lazy"></picture></a>
+          <a class="insta-item" href="https://www.instagram.com/lojas_neon/reel/DZH-hKhBRDn/" target="_blank" rel="noopener"><picture><source srcset="assets/img/insta/DZH-hKhBRDn.webp" type="image/webp"><img src="assets/img/insta/DZH-hKhBRDn.jpg" alt="Vídeo: é só um alicate" width="520" height="650" loading="lazy"></picture></a>
+          <a class="insta-item" href="https://www.instagram.com/lojas_neon/p/Dbx67xZDIog/" target="_blank" rel="noopener"><picture><source srcset="assets/img/insta/Dbx67xZDIog.webp" type="image/webp"><img src="assets/img/insta/Dbx67xZDIog.jpg" alt="Alicate amperímetro Foxlux" width="520" height="650" loading="lazy"></picture></a>
+          <a class="insta-item" href="https://www.instagram.com/lojas_neon/reel/DdJ6jM5Dt30/" target="_blank" rel="noopener"><picture><source srcset="assets/img/insta/DdJ6jM5Dt30.webp" type="image/webp"><img src="assets/img/insta/DdJ6jM5Dt30.jpg" alt="Vídeo com caixa d'água na loja" width="520" height="650" loading="lazy"></picture></a>
+          <a class="insta-item" href="https://www.instagram.com/lojas_neon/p/DUIyISAEUF5/" target="_blank" rel="noopener"><picture><source srcset="assets/img/insta/DUIyISAEUF5.webp" type="image/webp"><img src="assets/img/insta/DUIyISAEUF5.jpg" alt="Como fazer comedouro pet com cano de PVC" width="520" height="650" loading="lazy"></picture></a>
+          <a class="insta-item" href="https://www.instagram.com/lojas_neon/reel/Dc4BYLkRsK8/" target="_blank" rel="noopener"><picture><source srcset="assets/img/insta/Dc4BYLkRsK8.webp" type="image/webp"><img src="assets/img/insta/Dc4BYLkRsK8.jpg" alt="Vídeo com ventilador na loja" width="520" height="650" loading="lazy"></picture></a>
+          <a class="insta-item" href="https://www.instagram.com/lojas_neon/p/DdTxKfUkTUd/" target="_blank" rel="noopener"><picture><source srcset="assets/img/insta/DdTxKfUkTUd.webp" type="image/webp"><img src="assets/img/insta/DdTxKfUkTUd.jpg" alt="Feliz Dia do Cliente" width="520" height="650" loading="lazy"></picture></a>
         </div>
       </div>
     </div>
@@ -290,7 +290,7 @@
         <h2>Duas lojas em Peruíbe</h2>
         <p>Escolha a unidade mais perto de você.</p>
       </div>
-      <a href="lojas.html" class="btn btn-linha">Ver localização</a>
+      <a href="/lojas" class="btn btn-linha">Ver localização</a>
     </div>
 
     <div class="lojas" data-anim data-anim-filhos>
@@ -363,20 +363,20 @@
       <div>
         <h4>Produtos</h4>
         <ul>
-          <li><a href="produtos.html?busca=el%C3%A9trica">Elétrica</a></li>
-          <li><a href="produtos.html?busca=hidr%C3%A1ulica">Hidráulica</a></li>
-          <li><a href="produtos.html?busca=chuveiro">Chuveiros</a></li>
-          <li><a href="produtos.html?busca=ilumina%C3%A7%C3%A3o">Iluminação</a></li>
-          <li><a href="produtos.html?busca=ventila%C3%A7%C3%A3o">Ventilação</a></li>
-          <li><a href="produtos.html">Ver catálogo</a></li>
+          <li><a href="/produtos?busca=el%C3%A9trica">Elétrica</a></li>
+          <li><a href="/produtos?busca=hidr%C3%A1ulica">Hidráulica</a></li>
+          <li><a href="/produtos?busca=chuveiro">Chuveiros</a></li>
+          <li><a href="/produtos?busca=ilumina%C3%A7%C3%A3o">Iluminação</a></li>
+          <li><a href="/produtos?busca=ventila%C3%A7%C3%A3o">Ventilação</a></li>
+          <li><a href="/produtos">Ver catálogo</a></li>
         </ul>
       </div>
       <div>
         <h4>A Neon</h4>
         <ul>
-          <li><a href="profissional.html">Sou Profissional</a></li>
-          <li><a href="obra.html">Monte sua Obra</a></li>
-          <li><a href="lojas.html">Nossas lojas</a></li>
+          <li><a href="/profissional">Sou Profissional</a></li>
+          <li><a href="/obra">Monte sua Obra</a></li>
+          <li><a href="/lojas">Nossas lojas</a></li>
           <li><a href="https://www.instagram.com/lojas_neon/" target="_blank" rel="noopener">Instagram</a></li>
         </ul>
       </div>
@@ -411,8 +411,8 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.umd.js"></script>
-<script src="assets/js/config.js?v=39"></script>
-<script src="assets/js/base.js?v=39"></script>
-<script src="assets/js/catalogo.js?v=39"></script>
+<script src="assets/js/config.js?v=44"></script>
+<script src="assets/js/base.js?v=44"></script>
+<script src="assets/js/catalogo.js?v=44"></script>
 </body>
 </html>

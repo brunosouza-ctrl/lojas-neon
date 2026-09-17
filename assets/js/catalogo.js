@@ -246,6 +246,14 @@
   /* =========================================================
      CARTAO
      ========================================================= */
+  /* A foto do produto tem versao .webp ao lado do .jpg, uns 40% mais leve.
+     O navegador que entender webp pega ela; o resto continua no jpg. */
+  function imagem(endereco, alt) {
+    var img = '<img src="' + endereco + '" alt="' + alt + '" width="560" height="560" loading="lazy" decoding="async">';
+    if (endereco.slice(-4).toLowerCase() !== '.jpg') return img;
+    return '<picture><source srcset="' + endereco.slice(0, -4) + '.webp" type="image/webp">' + img + '</picture>';
+  }
+
   function cartao(p) {
     var UNIDADE = { m: 'metro', pc: 'peça' };
     var disp = p.p
@@ -254,7 +262,7 @@
     return '' +
       '<article class="prod" data-prod="' + p.id + '">' +
         '<div class="prod-foto">' +
-          '<img src="' + (p.foto || foto(p.f, 520)) + '" alt="' + p.n + '" loading="lazy">' +
+          imagem(p.foto || foto(p.f, 520), p.n) +
           '<button class="prod-mais" type="button" aria-label="Adicionar ao orçamento"></button>' +
         '</div>' +
         '<div class="prod-corpo">' +
@@ -279,6 +287,49 @@
   /* =========================================================
      MONTAGEM DO CATALOGO
      ========================================================= */
+  /* Vitrine da home: em vez dos primeiros da lista, que seriam todos cabos,
+     pega um de cada categoria, comecando pelo mais barato de cada uma, e da
+     a segunda volta ate completar. */
+  function variados(lista, quantos) {
+    var porCategoria = {};
+    lista.forEach(function (p) {
+      (porCategoria[p.c] = porCategoria[p.c] || []).push(p);
+    });
+
+    var categorias = Object.keys(porCategoria).sort(function (a, b) {
+      var ia = ORDEM_CATEGORIAS.indexOf(a), ib = ORDEM_CATEGORIAS.indexOf(b);
+      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+    });
+
+    categorias.forEach(function (c) {
+      porCategoria[c].sort(function (a, b) {
+        return (precoNumero(a.p) || 1e9) - (precoNumero(b.p) || 1e9);
+      });
+    });
+
+    var escolhidos = [];
+    var volta = 0;
+    while (escolhidos.length < quantos && volta < 20) {
+      var achouAlgum = false;
+      for (var i = 0; i < categorias.length && escolhidos.length < quantos; i++) {
+        var fila = porCategoria[categorias[i]];
+        if (fila.length > volta) {
+          escolhidos.push(fila[volta]);
+          achouAlgum = true;
+        }
+      }
+      if (!achouAlgum) break;
+      volta++;
+    }
+    return escolhidos;
+  }
+
+  function precoNumero(p) {
+    if (p === null || p === undefined || p === '') return null;
+    var n = Number(String(p).replace(/\./g, '').replace(',', '.'));
+    return isNaN(n) ? null : n;
+  }
+
   function montarCatalogo() {
   apuraCategorias();
 
@@ -298,12 +349,14 @@
   var semNada = document.getElementById('semResultado');
   var categoriaAtiva = '';
 
-  /* chips */
-  if (chips) {
+  /* chips: refeitos quando a lista de categorias muda */
+  function desenharChips() {
+    if (!chips) return;
     var listaChips = ['Todos'].concat(CATEGORIAS);
-    chips.innerHTML = listaChips.map(function (c, i) {
-      return '<button type="button" class="chip' + (i === 0 ? ' on' : '') + '" data-cat="' +
-        (i === 0 ? '' : c) + '">' + (I[c] || I.Todos) + c + '</button>';
+    chips.innerHTML = listaChips.map(function (c) {
+      var ativo = (c === 'Todos' ? '' : c) === categoriaAtiva;
+      return '<button type="button" class="chip' + (ativo ? ' on' : '') + '" data-cat="' +
+        (c === 'Todos' ? '' : c) + '">' + (I[c] || I.Todos) + c + '</button>';
     }).join('');
 
     chips.querySelectorAll('.chip').forEach(function (b) {
@@ -314,6 +367,10 @@
         render();
       });
     });
+  }
+
+  if (chips) {
+    desenharChips();
 
     var seta = document.getElementById('chipsSeta');
     if (seta) {
@@ -394,7 +451,7 @@
       recorte = lista.slice(inicio, inicio + POR_PAGINA);
       desenharPaginacao(lista.length);
     } else {
-      recorte = LIMITE ? lista.slice(0, LIMITE) : lista;
+      recorte = LIMITE ? variados(lista, LIMITE) : lista;
     }
 
     grade.innerHTML = recorte.map(cartao).join('');
@@ -415,12 +472,27 @@
 
   render();
   atualizarBarra();
+
+  /* usado quando o banco responde depois da primeira pintura */
+  window.NEON.redesenhar = function () {
+    desenharChips();
+    render();
+  };
   }
 
+  /* Primeiro desenho, imediato, com a lista que mora neste arquivo.
+     O banco no plano free demora a acordar, e esperar por ele deixaria a
+     pagina vazia por segundos. */
+  PRODUTOS = PRODUTOS_EXEMPLO.map(function (x, i) {
+    x.id = 'p' + i;
+    return x;
+  });
+  window.NEON.origemCatalogo = 'exemplo';
+  montarCatalogo();
+
+  /* Segundo desenho, quando o banco responde: precos e produtos de verdade. */
   carregarProdutos().then(function (origem) {
-    /* deixa registrado de onde vieram os produtos: ajuda a conferir
-       se o banco esta respondendo sem precisar abrir a aba de rede */
     window.NEON.origemCatalogo = origem;
-    montarCatalogo();
+    if (origem === 'banco' && window.NEON.redesenhar) window.NEON.redesenhar();
   });
 })();
