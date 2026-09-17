@@ -1,0 +1,48 @@
+# =========================================================
+# LOJAS NEON  |  regras do servidor (Apache, hospedagem UOL)
+#
+# 1. Endereco limpo: /produtos em vez de /produtos.html
+# 2. Cache longo para imagens, css e js (eles ja levam ?v=NN na chamada)
+# 3. Compressao de texto
+#
+# O redirecionamento para https esta no fim, comentado: so ligar depois
+# que o certificado estiver valendo, senao o site sai do ar.
+# =========================================================
+
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # /produtos.html manda para /produtos, de uma vez so, para o Google nao ver duas paginas iguais
+  RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # e /produtos serve o arquivo produtos.html
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg              "access plus 1 year"
+  ExpiresByType image/png               "access plus 1 year"
+  ExpiresByType image/webp              "access plus 1 year"
+  ExpiresByType image/svg+xml           "access plus 1 year"
+  ExpiresByType image/x-icon            "access plus 1 year"
+  ExpiresByType text/css                "access plus 1 month"
+  ExpiresByType application/javascript  "access plus 1 month"
+  ExpiresByType text/html               "access plus 10 minutes"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json image/svg+xml
+</IfModule>
+
+# Depois que o cadeado aparecer, tirar o # das tres linhas abaixo e subir de novo.
+# <IfModule mod_rewrite.c>
+#   RewriteCond %{HTTPS} !=on
+#   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+# </IfModule>

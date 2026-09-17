@@ -16,8 +16,8 @@ SAIDA = os.path.join(RAIZ, "publicar")
 ZIP = os.path.join(RAIZ, "lojas-neon-publicar.zip")
 
 PAGINAS = ["index.html", "produtos.html", "obra.html", "profissional.html", "lojas.html"]
-SOLTOS = ["favicon.ico", "robots.txt", "sitemap.xml"]
-PASTAS_ASSETS = ["css", "js", "img", "icones"]
+SOLTOS = ["favicon.ico", "robots.txt", "sitemap.xml", ".htaccess"]
+PASTAS_ASSETS = ["css", "js", "img", "icones", "marcas"]
 # o painel tem folha e script proprios: ficam de fora do site publico so se ele nao for junto
 ADMIN = ["assets/css/admin.css", "assets/js/admin.js"]
 
@@ -65,9 +65,15 @@ def conferir():
                 limpo = u.split("?")[0].split("#")[0]
                 if not limpo or limpo.endswith("/"):
                     continue
-                # dentro de css e js o caminho que comeca com assets/ e contado da raiz do site
-                base = SAIDA if limpo.startswith("assets/") else pasta
-                if not os.path.exists(os.path.join(base, limpo)):
+                # endereco limpo (/produtos) e caminho da raiz (assets/...) contam da raiz do site
+                if limpo.startswith("/"):
+                    base, limpo = SAIDA, limpo.lstrip("/")
+                elif limpo.startswith("assets/"):
+                    base = SAIDA
+                else:
+                    base = pasta
+                alvo = os.path.join(base, limpo)
+                if not (os.path.exists(alvo) or os.path.isfile(alvo + ".html")):
                     faltando.append((os.path.relpath(caminho, SAIDA), u))
     return faltando
 
