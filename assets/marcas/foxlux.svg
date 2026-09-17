@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="105" viewBox="360 111 480 105">
-  <title>FOXLUX — recreated vector wordmark</title>
-  <text x="600" y="205" text-anchor="middle"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="112px" font-weight="800"
-        letter-spacing="1" textLength="454" lengthAdjust="spacingAndGlyphs" fill="#E30613">FOXLUX</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="41 22 1318 352" width="1318" height="352">
+  <title>FOXLUX — vetor</title>
+  <desc>Logotipo vetorizado, fundo transparente.</desc>
+  
+<g transform="translate(90 75)">
+  <rect x="0" y="0" width="1318" height="352" rx="125" fill="white" stroke="#171717" stroke-width="12"/>
+  <text x="85" y="178" font-family="Arial,Helvetica,sans-serif" font-size="165" font-weight="900" fill="#F47B00">F</text>
+  <circle cx="255" cy="125" r="73" fill="#171717"/>
+  <path d="M208 160 L225 108 L255 76 L285 108 L302 160 L276 143 L255 156 L234 143Z" fill="#F47B00"/>
+  <path d="M229 116 L242 105 L248 119 L236 122Z M262 119 L268 105 L281 116 L274 122Z" fill="#171717"/>
+  <text x="330" y="178" font-family="Arial,Helvetica,sans-serif" font-size="165" font-weight="900" fill="#F47B00">XLUX</text>
+  <text x="610" y="226" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="31" font-weight="800" fill="#171717">MATERIAIS ELÉTRICOS E FERRAMENTAS</text>
+</g>
 </svg>

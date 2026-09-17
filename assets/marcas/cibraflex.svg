@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="513" height="81" viewBox="344 133 513 81">
-  <title>CIBRAFLEX — recreated vector wordmark</title>
-  <text x="600" y="205" text-anchor="middle"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="86px" font-weight="800"
-        letter-spacing="1" textLength="493" lengthAdjust="spacingAndGlyphs" fill="#0054A6">CIBRAFLEX</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="378 84 644 313" width="644" height="313">
+  <title>CIBRAFLEX — vetor</title>
+  <desc>Logotipo vetorizado, fundo transparente.</desc>
+  
+<text x="700" y="295" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="170" font-weight="900" fill="#ED1C24">CIBRA</text>
+<text x="700" y="365" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="500" fill="#9C3D3D">PIRES DO RIO GROUP</text>
+
 </svg>

@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="573" height="105" viewBox="314 111 573 105">
-  <title>ZAGONEL — recreated vector wordmark</title>
-  <text x="600" y="205" text-anchor="middle"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="112px" font-weight="800"
-        letter-spacing="1" textLength="547" lengthAdjust="spacingAndGlyphs" fill="#00529B">ZAGONEL</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="133 26 1002 432" width="1002" height="432">
+  <title>ZAGONEL — vetor</title>
+  <desc>Logotipo vetorizado, fundo transparente.</desc>
+  
+<g transform="translate(170 35)">
+  <g fill="#2EAFA8">
+    <path d="M120 30 C190 20 230 45 250 90 C216 98 184 110 158 135 C130 108 118 70 120 30Z"/>
+    <path d="M275 30 C345 20 385 45 405 90 C371 98 339 110 313 135 C285 108 273 70 275 30Z"/>
+    <path d="M430 30 C500 20 540 45 560 90 C526 98 494 110 468 135 C440 108 428 70 430 30Z"/>
+  </g>
+  <text x="0" y="330" font-family="Arial,Helvetica,sans-serif" font-size="180" font-weight="800" fill="#171717">Zagonel</text>
+  <text x="755" y="325" font-family="Arial,Helvetica,sans-serif" font-size="48" font-weight="700" fill="#171717">Duchas</text>
+</g>
 </svg>

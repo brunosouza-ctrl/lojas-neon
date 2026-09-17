@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="270" height="144" viewBox="465 77 270 144">
-  <title>SIL — recreated vector wordmark</title>
-  <text x="600" y="205" text-anchor="middle"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="150px" font-weight="800"
-        letter-spacing="1" textLength="234" lengthAdjust="spacingAndGlyphs" fill="#0054A6">SIL</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="122 45 746 373" width="746" height="373">
+  <title>SIL — vetor</title>
+  <desc>Logotipo vetorizado, fundo transparente.</desc>
+  
+<g transform="translate(150 65)">
+  <text x="0" y="250" font-family="Arial,Helvetica,sans-serif" font-size="220" font-weight="900" font-style="italic" fill="#008BD2">SIL</text>
+  <path d="M500 95 C580 25 690 60 690 130 C690 205 580 245 500 175 C570 155 610 140 610 120 C610 102 575 95 500 95Z" fill="#F6A21A"/>
+  <path d="M500 165 C575 235 690 195 690 125" fill="none" stroke="#F6A21A" stroke-width="32" stroke-linecap="round"/>
+  <text x="290" y="315" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="48" font-weight="400" fill="#111111">Fios e Cabos Elétricos</text>
+</g>
 </svg>
