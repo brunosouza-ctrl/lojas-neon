@@ -767,7 +767,7 @@
 
     $('corpoTabela').innerHTML = lista.map(function (p) {
       var foto = p.foto_url
-        ? '<img class="miniatura" src="' + escapa(p.foto_url) + '" alt="">'
+        ? '<img class="miniatura" src="' + escapa(enderecoFoto(p.foto_url)) + '" alt="">'
         : '<div class="miniatura-vazia">' + SEM_FOTO + '</div>';
       var partes = [];
       if (p.marca) partes.push(escapa(p.marca));
@@ -878,7 +878,17 @@
   /* =========================================================
      JANELA DE EDICAO
      ========================================================= */
+  /* O painel pode estar em /admin/, uma pasta abaixo do site. A foto gravada
+     no banco e relativa a raiz ("assets/img/produtos/x.jpg"), entao aqui ela
+     precisa de um ".." na frente para nao virar /admin/assets/... */
+  function enderecoFoto(u) {
+    var t = String(u || '');
+    if (!t || /^(https?:|data:|\/)/.test(t)) return t;
+    return /\/admin\/?$/.test(location.pathname.replace(/[^/]*$/, '')) ? '../' + t : t;
+  }
+
   function preverFoto(url) {
+    url = enderecoFoto(url);
     if (url) {
       $('fotoPrevia').src = url;
       $('fotoPrevia').hidden = false;
