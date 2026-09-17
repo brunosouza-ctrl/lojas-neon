@@ -40,6 +40,11 @@ DirectoryIndex index.html
   AddOutputFilterByType DEFLATE application/javascript application/json image/svg+xml
 </IfModule>
 
+# Sonda temporaria: /diag responde com um redirecionamento cujo endereco mostra
+# como o servidor enxerga a conexao. Serve para descobrir qual variavel diz que a
+# visita chegou por http. Depois de descoberto, apagar este bloco.
+RewriteRule ^diag$ /diag-resultado?https=%{HTTPS}&proto=%{HTTP:X-Forwarded-Proto}&ssl=%{HTTP:X-Forwarded-Ssl}&porta=%{SERVER_PORT} [R=302,L]
+
 # Certificado Let's Encrypt ativo desde 17/09/2026: quem entrar por http vai para https.
 <IfModule mod_rewrite.c>
   RewriteCond %{HTTPS} !=on
