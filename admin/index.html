@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Painel | Lojas Neon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,700..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/admin.css?v=39">
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div class="entrada" id="telaEntrada">
+  <div class="entrada-caixa">
+    <div class="entrada-marca">
+      <svg viewBox="18 4 328 128" role="img" aria-label="Lojas Neon">
+        <g transform="translate(10,0) skewX(-9)">
+          <g fill="none" stroke="#FFC72C" stroke-width="11" stroke-linecap="round">
+            <path d="M66 16C52 42 52 92 66 118"/>
+            <path d="M299 16C313 42 313 92 299 118"/>
+          </g>
+          <path fill="#FFC72C" d="M100 8H265C278 8 287 25 287 67C287 109 278 126 265 126H100C87 126 78 109 78 67C78 25 87 8 100 8Z"/>
+          <text fill="#122B7A" x="182" y="40" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="800" font-size="18" letter-spacing="4">LOJAS</text>
+          <text fill="#122B7A" x="182" y="88" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="900" font-size="58" letter-spacing="-2">NEON</text>
+          <text fill="#122B7A" x="182" y="112" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="13.5" letter-spacing="0.4">ELÉTRICA • HIDRÁULICA</text>
+        </g>
+      </svg>
+    </div>
+
+    <h1>Painel de produtos</h1>
+    <p class="sub">Digite a senha para alterar preços e cuidar do catálogo.</p>
+
+    <div class="aviso aviso-atencao" id="avisoDemo" hidden>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 8v5"/><circle cx="12" cy="16.5" r=".6" fill="currentColor"/><path d="M10.3 3.9 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+      <span><b>Banco de dados ainda não configurado.</b> Dá para conhecer o painel em modo demonstração: tudo funciona, mas as alterações ficam só neste navegador e não aparecem no site.</span>
+    </div>
+
+    <div class="aviso aviso-erro" id="erroEntrada" hidden>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7.5v5M12 16h.01"/></svg>
+      <span id="erroEntradaTexto"></span>
+    </div>
+
+    <form id="formEntrada">
+      <div class="campo">
+        <label for="senha">Senha do painel</label>
+        <input type="password" id="senha" autocomplete="current-password" placeholder="Digite a senha" required autofocus>
+        <span class="dica">Três tentativas erradas e o painel espera 5 minutos antes de aceitar outra.</span>
+      </div>
+      <button type="submit" class="b b-azul b-cheio" id="botaoEntrar">Entrar</button>
+    </form>
+
+    <button class="b b-linha b-cheio" id="botaoDemo" style="margin-top:10px" hidden>
+      Ver painel em modo demonstração
+    </button>
+  </div>
+</div>
+
+<!-- ================= PAINEL ================= -->
+<div id="telaPainel" hidden>
+
+  <header class="topo">
+    <div class="topo-linha">
+      <div class="topo-marca">
+        <svg viewBox="18 4 328 128" role="img" aria-label="Lojas Neon">
+          <g transform="translate(10,0) skewX(-9)">
+            <g fill="none" stroke="#FFC72C" stroke-width="11" stroke-linecap="round">
+              <path d="M66 16C52 42 52 92 66 118"/>
+                <path d="M299 16C313 42 313 92 299 118"/>
+              </g>
+            <path fill="#FFC72C" d="M100 8H265C278 8 287 25 287 67C287 109 278 126 265 126H100C87 126 78 109 78 67C78 25 87 8 100 8Z"/>
+            <text fill="#122B7A" x="182" y="40" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="800" font-size="18" letter-spacing="4">LOJAS</text>
+            <text fill="#122B7A" x="182" y="88" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="900" font-size="58" letter-spacing="-2">NEON</text>
+            <text fill="#122B7A" x="182" y="112" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="13.5" letter-spacing="0.4">ELÉTRICA • HIDRÁULICA</text>
+          </g>
+        </svg>
+        <span class="topo-etiqueta" id="etiquetaModo">Painel</span>
+      </div>
+
+      <div class="topo-dir">
+        <a href="index.html" target="_blank" rel="noopener" class="b b-linha b-p">Ver o site</a>
+        <div class="topo-quem">
+          <b id="quemEntrou">.</b>
+          <span>administrador</span>
+        </div>
+        <button class="b b-linha b-p" id="botaoSair">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="aviso aviso-atencao" id="faixaDemo" hidden style="margin-bottom:22px">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 8v5"/><circle cx="12" cy="16.5" r=".6" fill="currentColor"/><path d="M10.3 3.9 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+      <span><b>Modo demonstração.</b> O que você mudar aqui fica guardado só neste navegador e não altera o site de verdade. Serve para conhecer o painel enquanto o banco de dados não está ligado.</span>
+    </div>
+
+    <div class="painel-topo">
+      <div>
+        <h2>Produtos</h2>
+        <p>Altere o preço direto na lista. Para o resto, use o lápis.</p>
+      </div>
+      <div class="acoes-topo">
+        <button class="b b-linha" id="botaoExportar" title="Baixa todos os produtos numa planilha do Excel">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 19h16"/></svg>
+          Exportar planilha
+        </button>
+        <button class="b b-linha" id="botaoImportar" title="Atualiza preços e cadastra produtos a partir de uma planilha">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5M4 19h16"/></svg>
+          Importar planilha
+        </button>
+        <input type="file" id="arquivoPlanilha" accept=".xlsx,.xls,.csv" hidden>
+        <button class="b b-amarelo" id="botaoNovo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Novo produto
+        </button>
+      </div>
+    </div>
+
+    <div class="ferramentas">
+      <div class="busca-adm">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" id="buscaAdm" placeholder="Buscar por nome ou marca">
+      </div>
+      <select id="filtroCategoria"><option value="">Todas as categorias</option></select>
+      <select id="filtroSituacao">
+        <option value="">Todos</option>
+        <option value="ativo">No site</option>
+        <option value="inativo">Escondidos</option>
+      </select>
+    </div>
+
+    <div class="contagem" id="contagem"></div>
+
+    <div class="carregando" id="carregando">
+      <div class="girando"></div>
+      Carregando produtos
+    </div>
+
+    <div class="tabela-caixa" id="caixaTabela" hidden>
+      <table>
+        <thead>
+          <tr>
+            <th class="cel-foto">Foto</th>
+            <th>Produto</th>
+            <th>Categoria</th>
+            <th class="cel-preco">Preço</th>
+            <th class="cel-ativo">No site</th>
+            <th class="cel-acoes"></th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabela"></tbody>
+      </table>
+    </div>
+
+    <div class="vazio-adm" id="vazioAdm" hidden>
+      <h3 id="vazioTitulo">Nenhum produto por aqui</h3>
+      <p id="vazioTexto">Cadastre o primeiro produto para ele aparecer no site.</p>
+      <button class="b b-amarelo" id="botaoNovoVazio">Cadastrar produto</button>
+    </div>
+  </main>
+</div>
+
+<!-- ================= JANELA DE EDICAO ================= -->
+<div class="cortina" id="cortina" hidden>
+  <div class="janela" role="dialog" aria-modal="true" aria-labelledby="tituloJanela">
+    <div class="janela-topo">
+      <h3 id="tituloJanela">Novo produto</h3>
+      <button class="fechar" id="fecharJanela" aria-label="Fechar">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="janela-corpo">
+      <form id="formProduto">
+        <div class="campo">
+          <label for="pNome">Nome do produto</label>
+          <input type="text" id="pNome" required placeholder="Exemplo: Disjuntor bipolar 40A curva C">
+        </div>
+
+        <div class="campo">
+          <label for="pCodigo">Código de barras</label>
+          <input type="text" id="pCodigo" inputmode="numeric" placeholder="Exemplo: 7891435933581">
+          <span class="dica">É por ele que a importação de planilha acha o produto para atualizar o preço</span>
+        </div>
+
+        <div class="dupla">
+          <div class="campo">
+            <label for="pMarca">Marca</label>
+            <input type="text" id="pMarca" placeholder="Exemplo: Steck" list="listaMarcas">
+            <datalist id="listaMarcas"></datalist>
+          </div>
+          <div class="campo">
+            <label for="pCategoria">Categoria</label>
+            <input type="text" id="pCategoria" required placeholder="Exemplo: Elétrica" list="listaCategorias">
+            <datalist id="listaCategorias"></datalist>
+          </div>
+        </div>
+
+        <div class="dupla">
+          <div class="campo">
+            <label for="pPreco">Preço</label>
+            <input type="text" id="pPreco" inputmode="decimal" placeholder="0,00">
+            <span class="dica">Deixe vazio para aparecer "Consulte disponibilidade"</span>
+          </div>
+          <div class="campo">
+            <label for="pUnidade">Vendido por</label>
+            <select id="pUnidade">
+              <option value="un">Unidade</option>
+              <option value="m">Metro</option>
+              <option value="pc">Peça</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="pOrdem">Ordem na lista</label>
+          <input type="number" id="pOrdem" value="0" step="1">
+          <span class="dica">Menor número aparece primeiro</span>
+        </div>
+
+        <div class="campo">
+          <label>Foto do produto</label>
+          <div class="foto-area">
+            <img class="foto-previa" id="fotoPrevia" alt="" hidden>
+            <div class="foto-previa-vazia" id="fotoVazia">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><circle cx="8.5" cy="10" r="2"/><path d="m2.5 16.5 5-4.5 4.5 4 3.5-3 6 5.5"/></svg>
+            </div>
+            <div class="foto-controles">
+              <input type="file" id="pArquivo" accept="image/*" hidden>
+              <button type="button" class="b b-linha b-p" id="botaoFoto">Escolher imagem</button>
+              <button type="button" class="b b-linha b-p" id="botaoTirarFoto" hidden style="margin-left:6px">Remover</button>
+              <input type="url" id="pFoto" placeholder="ou cole o endereço de uma imagem" style="margin-top:10px;width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--borda);font-size:.88rem">
+            </div>
+          </div>
+        </div>
+
+        <div class="campo" style="margin-bottom:0">
+          <label style="display:flex;align-items:center;gap:11px;text-transform:none;letter-spacing:0;font-size:.93rem;font-family:Inter;font-weight:500;color:var(--grafite)">
+            <span class="chave"><input type="checkbox" id="pAtivo" checked><i></i></span>
+            Mostrar este produto no site
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <div class="janela-pe">
+      <button class="b b-linha" id="cancelarJanela">Cancelar</button>
+      <button class="b b-azul" id="salvarProduto">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CONFERENCIA DA IMPORTACAO ================= -->
+<div class="cortina" id="cortinaImport" hidden>
+  <div class="janela janela-larga" role="dialog" aria-modal="true" aria-labelledby="tituloImport">
+    <div class="janela-topo">
+      <h3 id="tituloImport">Conferir importação</h3>
+      <button class="fechar" id="fecharImport" aria-label="Fechar">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="janela-corpo">
+      <p class="import-arquivo" id="importArquivo"></p>
+      <div class="import-resumo" id="importResumo"></div>
+      <div class="aviso aviso-atencao" id="importAvisoNovos" hidden>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 8v5"/><circle cx="12" cy="16.5" r=".6" fill="currentColor"/><path d="M10.3 3.9 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <span>Produtos novos entram <b>escondidos do site</b>, porque chegam sem foto. Confira nome, categoria e foto de cada um e depois ligue a chavinha "No site".</span>
+      </div>
+      <div class="import-lista" id="importLista"></div>
+    </div>
+    <div class="janela-pe">
+      <button class="b b-linha" id="cancelarImport">Cancelar</button>
+      <button class="b b-azul" id="aplicarImport">Aplicar alterações</button>
+    </div>
+  </div>
+</div>
+
+<div class="recados" id="recados"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="../assets/js/config.js?v=39"></script>
+<script src="../assets/js/admin.js?v=39"></script>
+</body>
+</html>
