@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="437" height="105" viewBox="382 111 437 105">
-  <title>KRONA — recreated vector wordmark</title>
-  <text x="600" y="205" text-anchor="middle"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="112px" font-weight="800"
-        letter-spacing="1" textLength="411" lengthAdjust="spacingAndGlyphs" fill="#005B9A">KRONA</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="74 19 968 344" width="968" height="344">
+  <title>KRONA — vetor</title>
+  <desc>Logotipo vetorizado, fundo transparente.</desc>
+  
+<g transform="translate(80 55)">
+  <path d="M145 0 C225 0 285 42 285 112 C285 174 245 220 180 245 L112 272 L126 208 L184 186 C215 174 232 151 232 119 C232 89 211 68 180 68 L151 68 L95 235 L30 235 L88 55 C99 21 116 0 145 0Z" fill="#E3062F"/>
+  <path d="M151 68 L224 68 L165 126 L235 181 L174 181 L118 140Z" fill="#E3062F"/>
+  <text x="320" y="175" font-family="Arial,Helvetica,sans-serif" font-size="150" font-weight="800" fill="#173A63">KRONA</text>
+  <text x="325" y="245" font-family="Arial,Helvetica,sans-serif" font-size="44" font-weight="700" letter-spacing="8" fill="#173A63">TUBOS E CONEXÕES</text>
+</g>
 </svg>

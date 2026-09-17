@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="368" height="105" viewBox="416 111 368 105">
-  <title>TIGRE — recreated vector wordmark</title>
-  <text x="600" y="205" text-anchor="middle"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="112px" font-weight="800"
-        letter-spacing="1" textLength="342" lengthAdjust="spacingAndGlyphs" fill="#0054A6">TIGRE</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="96 49 1045 293" width="1045" height="293">
+  <title>TIGRE — vetor</title>
+  <desc>Logotipo vetorizado, fundo transparente.</desc>
+  
+<g transform="translate(80 65)">
+  <path d="M55 175 C115 78 175 35 270 25 C355 16 420 42 470 92 C410 66 365 72 330 101 C302 124 286 157 278 202 C237 160 198 145 160 151 C122 157 92 174 55 215Z" fill="none" stroke="#F28C28" stroke-width="28" stroke-linecap="round"/>
+  <path d="M155 165 C190 132 221 121 252 122 C280 123 306 135 329 158 C302 180 286 206 276 238 C239 209 209 193 180 190 C169 188 160 179 155 165Z" fill="#0057A6"/>
+  <circle cx="225" cy="145" r="11" fill="#0057A6"/>
+  <circle cx="257" cy="137" r="11" fill="#0057A6"/>
+  <circle cx="287" cy="148" r="11" fill="#0057A6"/>
+  <text x="505" y="190" font-family="Arial,Helvetica,sans-serif" font-size="150" font-weight="900" fill="#0057A6">TIGRE</text>
+</g>
 </svg>

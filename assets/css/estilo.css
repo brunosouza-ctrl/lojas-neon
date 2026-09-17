@@ -379,8 +379,10 @@ section{padding:74px 0}
 .marca-item{flex-shrink:0;width:194px;height:98px;border:1px solid var(--cinza-borda);border-radius:14px;
   background:#fff;display:grid;place-items:center;padding:18px;transition:.2s}
 .marca-item:hover{border-color:var(--azul);box-shadow:var(--sombra)}
-/* logo da marca colorida: no celular nao existe hover, entao nada de cinza */
-.marca-item img{max-height:100%;max-width:100%;width:100%;object-fit:contain;opacity:.92;transition:.2s}
+/* logo da marca colorida: no celular nao existe hover, entao nada de cinza.
+   A altura para em 74% para as logos altas (3M) nao ficarem gigantes ao lado
+   das deitadas (Foxlux, Tramontina). */
+.marca-item img{max-height:74%;max-width:100%;width:auto;object-fit:contain;opacity:.95;transition:.2s}
 .marca-item:hover img{opacity:1;transform:scale(1.04)}
 .marca-item span{font-family:'Archivo';font-weight:800;font-size:1rem;color:#8A90A0;text-align:center;transition:.2s}
 .marca-item:hover span{color:var(--azul-esc)}

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="599" height="82" viewBox="300 132 599 82">
-  <title>TRAMONTINA — recreated vector wordmark</title>
-  <text x="600" y="205" text-anchor="middle"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="86px" font-weight="800"
-        letter-spacing="1" textLength="579" lengthAdjust="spacingAndGlyphs" fill="#00529A">TRAMONTINA</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 85 1010 245" width="1010" height="245">
+  <title>TRAMONTINA — vetor</title>
+  <desc>Logotipo vetorizado, fundo transparente.</desc>
+  
+<rect x="60" y="85" width="1010" height="245" fill="#0000A8"/>
+<g transform="translate(110 125)">
+  <path d="M0 0 H135 V42 H91 V155 H44 V42 H0Z" fill="#FFFFFF"/>
+  <path d="M0 0 H135 L106 34 H28Z" fill="#FFFFFF"/>
+  <text x="175" y="120" font-family="Arial,Helvetica,sans-serif" font-size="105" font-weight="500" fill="#FFFFFF">TRAMONTINA</text>
+</g>
 </svg>
