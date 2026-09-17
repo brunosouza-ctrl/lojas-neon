@@ -1,11 +1,15 @@
 # =========================================================
 # LOJAS NEON  |  regras do servidor (Apache, hospedagem UOL)
 #
-# 1. Endereco limpo: /produtos em vez de /produtos.html
-# 2. Cache longo para imagens, css e js (eles ja levam ?v=NN na chamada)
-# 3. Compressao de texto
+# 1. Tudo em https
+# 2. Endereco limpo: /produtos em vez de /produtos.html
+# 3. Cache longo para imagens, css e js (eles ja levam ?v=NN na chamada)
+# 4. Compressao de texto
 #
-# 4. Tudo em https: o certificado ja esta valendo.
+# Detalhe desta hospedagem: o certificado e resolvido por um proxy na frente do
+# Apache. Por isso %{HTTPS} chega sempre como "off" e a porta sempre como 80,
+# mesmo numa visita segura. Quem sabe a verdade e o cabecalho X-Forwarded-Proto,
+# descoberto com uma sonda em 17/09/2026.
 # =========================================================
 
 DirectoryIndex index.html
@@ -13,11 +17,17 @@ DirectoryIndex index.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # /produtos.html manda para /produtos, de uma vez so, para o Google nao ver duas paginas iguais
-  RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.html[\s?] [NC]
-  RewriteRule ^ /%1 [R=301,L]
+  # 1. visita que chegou por http vai para https.
+  #    Precisa vir antes das outras: a regra do endereco limpo termina em [L]
+  #    e o processamento pararia ali.
+  RewriteCond %{HTTP:X-Forwarded-Proto} =http
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-  # e /produtos serve o arquivo produtos.html
+  # 2. /produtos.html manda para /produtos, para o Google nao ver duas paginas iguais
+  RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.html[\s?] [NC]
+  RewriteRule ^ https://%{HTTP_HOST}/%1 [R=301,L]
+
+  # 3. e /produtos serve o arquivo produtos.html
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^(.+?)/?$ $1.html [L]
@@ -38,16 +48,4 @@ DirectoryIndex index.html
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
   AddOutputFilterByType DEFLATE application/javascript application/json image/svg+xml
-</IfModule>
-
-# Sonda temporaria: /diag responde com um redirecionamento cujo endereco mostra
-# como o servidor enxerga a conexao. Serve para descobrir qual variavel diz que a
-# visita chegou por http. Depois de descoberto, apagar este bloco.
-RewriteRule ^diag$ /diag-resultado?https=%{HTTPS}&proto=%{HTTP:X-Forwarded-Proto}&ssl=%{HTTP:X-Forwarded-Ssl}&porta=%{SERVER_PORT} [R=302,L]
-
-# Certificado Let's Encrypt ativo desde 17/09/2026: quem entrar por http vai para https.
-<IfModule mod_rewrite.c>
-  RewriteCond %{HTTPS} !=on
-  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
-  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 </IfModule>
