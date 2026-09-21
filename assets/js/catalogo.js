@@ -388,7 +388,7 @@
           '<div class="orc-foto">' + (l.p.foto ? '<img src="' + l.p.foto + '" alt="" loading="lazy">' : '') + '</div>' +
           '<div class="orc-dados">' +
             '<b>' + l.p.n + '</b>' +
-            '<span class="orc-unit">' + unit + '</span>' +
+            '<span class="orc-unit">' + (l.p.m ? l.p.m + ' · ' : '') + unit + '</span>' +
             '<div class="orc-qtd">' +
               '<button type="button" data-menos aria-label="Menos um">-</button>' +
               '<input type="number" inputmode="numeric" min="1" max="999" value="' + l.q + '" aria-label="Quantidade de ' + escapaAtributo(l.p.n) + '">' +
@@ -511,7 +511,8 @@
     var loja = LOJAS.filter(function (l) { return l.id === escolha.loja; })[0] || LOJAS[0];
 
     var linhas = c.linhas.map(function (l, i) {
-      var titulo = (i + 1) + ') ' + unidadeTexto(l.p, l.q) + ' de ' + l.p.n;
+      var titulo = (i + 1) + ') ' + unidadeTexto(l.p, l.q) + ' de ' + l.p.n +
+        (l.p.m ? ' (' + l.p.m + ')' : '');
       var valor = l.unit === null
         ? '   preço a consultar'
         : '   ' + dinheiro(l.unit) + (l.p.u === 'm' ? ' o metro' : l.p.u === 'pc' ? ' a peça' : ' cada') +
@@ -590,7 +591,7 @@
           '<button class="prod-mais" type="button" aria-label="Adicionar ao orçamento"></button>' +
         '</div>' +
         '<div class="prod-corpo">' +
-          '<span class="prod-cat">' + p.c + '</span>' +
+          '<span class="prod-cat">' + p.c + (p.m ? ' <span class="prod-marca">' + p.m + '</span>' : '') + '</span>' +
           '<h3>' + p.n + '</h3>' +
           '<p class="prod-disp">' + disp + '</p>' +
           '<button type="button" class="btn btn-p bt-orc btn-azul-linha">Adicionar ao orçamento</button>' +

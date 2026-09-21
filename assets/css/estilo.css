@@ -283,6 +283,9 @@ section{padding:74px 0}
 .prod-mais.feito{background:var(--azul);color:#fff}
 .prod-corpo{padding:16px 4px 4px;display:flex;flex-direction:column;flex:1}
 .prod-cat{font-size:.8rem;font-weight:500;color:var(--azul)}
+/* a marca anda junto da categoria, em cinza, para nao competir com o nome */
+.prod-marca{color:var(--cinza);font-weight:500}
+.prod-marca::before{content:"· "}
 .prod h3{font-size:1.03rem;font-weight:700;color:var(--grafite);margin:6px 0 8px;line-height:1.3;
   letter-spacing:-.02em;flex:1}
 .prod-disp{font-size:.85rem;color:var(--cinza);margin-bottom:16px}
