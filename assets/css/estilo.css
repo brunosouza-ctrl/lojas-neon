@@ -136,7 +136,7 @@ header{position:sticky;top:0;z-index:80;background:#fff;border-bottom:1px solid 
 .hero-visual{position:absolute;right:0;top:0;bottom:0;width:58%;z-index:2}
 .hero-arco{position:absolute;inset:0;background:var(--amarelo);
   clip-path:ellipse(62.2% 71.05% at 70.7% 50%)}
-.hero-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 45%;
+.hero-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 38%;
   clip-path:ellipse(59.9% 68% at 70.7% 50%)}
 @media(max-width:1000px){
   .hero-visual{width:48%}
@@ -283,6 +283,9 @@ section{padding:74px 0}
 .prod-mais.feito{background:var(--azul);color:#fff}
 .prod-corpo{padding:16px 4px 4px;display:flex;flex-direction:column;flex:1}
 .prod-cat{font-size:.8rem;font-weight:500;color:var(--azul)}
+/* a marca anda junto da categoria, em cinza, para nao competir com o nome */
+.prod-marca{color:var(--cinza);font-weight:500}
+.prod-marca::before{content:"· "}
 .prod h3{font-size:1.03rem;font-weight:700;color:var(--grafite);margin:6px 0 8px;line-height:1.3;
   letter-spacing:-.02em;flex:1}
 .prod-disp{font-size:.85rem;color:var(--cinza);margin-bottom:16px}
@@ -672,3 +675,91 @@ header{background:var(--azul);border-bottom:0}
 
 /* 8 posts em 3 colunas deixariam 2 sobrando: no celular ficam 6 */
 @media(max-width:560px){.insta-grid .insta-item:nth-child(n+7){display:none}}
+
+/* =========================================================
+   CARRINHO DO ORCAMENTO
+   Pensado primeiro no celular: a janela sobe de baixo e ocupa
+   quase a tela inteira, com o total e o botao sempre a vista.
+   ========================================================= */
+.barra-orc .txt{display:flex;align-items:center;gap:10px}
+.barra-orc .barra-total{font-family:'Archivo';font-weight:900;color:var(--amarelo)}
+.barra-orc .ico{cursor:pointer}
+
+.cortina-orc{position:fixed;inset:0;z-index:120;background:rgba(8,20,64,.55);
+  display:flex;align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(2px)}
+.cortina-orc[hidden]{display:none}
+.orc-janela{background:#fff;width:min(560px,100%);max-height:94vh;display:flex;flex-direction:column;
+  border-radius:20px 20px 0 0;box-shadow:0 -10px 50px rgba(8,20,64,.3);animation:orcSobe .26s cubic-bezier(.22,.61,.36,1)}
+@keyframes orcSobe{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+
+.orc-topo{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:18px 20px 14px;border-bottom:1px solid var(--cinza-borda)}
+.orc-topo h3{font-size:1.28rem;color:var(--azul-esc)}
+.orc-fechar{width:38px;height:38px;border-radius:10px;border:0;background:var(--cinza-10);
+  color:var(--cinza);display:grid;place-items:center;cursor:pointer;flex-shrink:0}
+.orc-fechar:hover{background:#ECEFF6;color:var(--grafite)}
+
+.orc-corpo{overflow-y:auto;padding:16px 20px 8px;flex:1}
+.orc-vazio{color:var(--cinza);font-size:.95rem;padding:26px 0;text-align:center}
+
+.orc-item{display:grid;grid-template-columns:58px 1fr auto;gap:12px;align-items:center;
+  padding:12px 0;border-bottom:1px solid var(--cinza-borda)}
+.orc-foto{width:58px;height:58px;border:1px solid var(--cinza-borda);border-radius:10px;
+  overflow:hidden;background:#fff}
+.orc-foto img{width:100%;height:100%;object-fit:contain;padding:4px}
+.orc-dados b{display:block;font-size:.92rem;font-weight:600;line-height:1.3;color:var(--grafite)}
+.orc-unit{display:block;font-size:.78rem;color:var(--cinza);margin:2px 0 8px}
+.orc-qtd{display:flex;align-items:center;gap:6px}
+.orc-qtd button{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--cinza-borda);
+  background:#fff;color:var(--azul-esc);font-size:1.1rem;font-weight:700;line-height:1;cursor:pointer}
+.orc-qtd button:hover{border-color:var(--azul);color:var(--azul)}
+.orc-qtd input{width:52px;height:30px;text-align:center;border:1.5px solid var(--cinza-borda);
+  border-radius:8px;font-family:inherit;font-size:.9rem;color:var(--grafite);-moz-appearance:textfield}
+.orc-qtd input::-webkit-outer-spin-button,.orc-qtd input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.orc-qtd .orc-tirar{margin-left:4px;border-color:transparent;color:#B9BFCE}
+.orc-qtd .orc-tirar:hover{color:#D33;border-color:#F2C8C8}
+.orc-sub{font-family:'Archivo';font-weight:900;font-size:1rem;color:var(--azul-esc);white-space:nowrap}
+
+.orc-aviso{font-size:.82rem;color:var(--cinza);background:var(--cinza-10);border-radius:10px;
+  padding:10px 12px;margin-top:12px}
+
+.orc-bloco{margin-top:20px}
+.orc-bloco h4{font-size:.95rem;color:var(--azul-esc);margin-bottom:10px}
+.orc-chips{display:flex;flex-wrap:wrap;gap:8px}
+.orc-duplo{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.orc-chip{border:1.5px solid var(--cinza-borda);background:#fff;color:var(--grafite);
+  border-radius:10px;padding:10px 14px;font-family:inherit;font-size:.88rem;cursor:pointer;transition:.16s}
+.orc-chip:hover{border-color:var(--azul)}
+.orc-chip.on{background:var(--azul);border-color:var(--azul);color:#fff;font-weight:600}
+.orc-chip.grande{padding:13px 14px;font-size:.92rem}
+.orc-endereco{width:100%;margin-top:10px;padding:12px 14px;border:1.5px solid var(--cinza-borda);
+  border-radius:10px;font-family:inherit;font-size:.9rem}
+.orc-endereco:focus{outline:0;border-color:var(--azul);box-shadow:0 0 0 4px rgba(21,57,178,.12)}
+
+.orc-lojas{display:grid;gap:8px}
+.orc-loja{display:grid;gap:2px;border:1.5px solid var(--cinza-borda);border-radius:12px;
+  padding:12px 14px;cursor:pointer;transition:.16s}
+.orc-loja:hover{border-color:var(--azul)}
+.orc-loja.on{border-color:var(--azul);background:var(--azul-100)}
+.orc-loja input{position:absolute;opacity:0;pointer-events:none}
+.orc-loja-nome{font-weight:700;font-size:.93rem;color:var(--azul-esc)}
+.orc-loja-end{font-size:.8rem;color:var(--cinza);line-height:1.35}
+.orc-loja-zap{font-size:.8rem;color:var(--azul);font-weight:600}
+
+.orc-pe{border-top:1px solid var(--cinza-borda);padding:14px 20px 18px;display:grid;gap:10px;
+  background:#fff;border-radius:0 0 20px 20px}
+.orc-total{display:flex;align-items:center;justify-content:space-between}
+.orc-total span{font-size:.95rem;color:var(--cinza)}
+.orc-total b{font-family:'Archivo';font-weight:900;font-size:1.5rem;color:var(--azul-esc);letter-spacing:-.03em}
+.orc-nota{font-size:.76rem;color:var(--cinza-fraco,#98A0B4);text-align:center}
+
+@media(min-width:620px){
+  .cortina-orc{align-items:center;padding:24px}
+  .orc-janela{border-radius:20px}
+  .orc-pe{border-radius:0 0 20px 20px}
+}
+@media(max-width:420px){
+  .orc-item{grid-template-columns:48px 1fr;row-gap:6px}
+  .orc-foto{width:48px;height:48px}
+  .orc-sub{grid-column:2;justify-self:end;font-size:.95rem}
+}

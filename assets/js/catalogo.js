@@ -172,65 +172,389 @@
   /* =========================================================
      ORCAMENTO
      ========================================================= */
+  var LOJAS = [
+    {
+      id: 'stella',
+      nome: 'Neon Stella Maris',
+      endereco: 'Av. Padre Anchieta, 1551, Balneário Stella Maris',
+      zap: '5513996061615',
+      mostra: '(13) 99606-1615'
+    },
+    {
+      id: 'marsol',
+      nome: 'Neon II Mar e Sol',
+      endereco: 'Av. Padre Anchieta, 7700, lojas 4 e 5, Mar e Sol',
+      zap: '5513991271355',
+      mostra: '(13) 99127-1355'
+    }
+  ];
+
+  var PAGAMENTOS = ['PIX', 'Cartão', 'Dinheiro', 'Combinar com a loja'];
+
   var CHAVE = 'neon.orcamento';
   var orcamento = [];
-  try { orcamento = JSON.parse(localStorage.getItem(CHAVE)) || []; } catch (e) { orcamento = []; }
+
+  /* A versao antiga guardava so uma lista de codigos. Se for esse o caso,
+     cada codigo vira um item de quantidade 1. */
+  try {
+    var guardado = JSON.parse(localStorage.getItem(CHAVE)) || [];
+    orcamento = guardado.map(function (x) {
+      return typeof x === 'string' ? { id: x, q: 1 } : { id: x.id, q: Math.max(1, x.q || 1) };
+    }).filter(function (x) { return x.id; });
+  } catch (e) { orcamento = []; }
 
   function salvar() {
     try { localStorage.setItem(CHAVE, JSON.stringify(orcamento)); } catch (e) { /* modo privado */ }
   }
 
-  function noOrcamento(id) { return orcamento.indexOf(id) !== -1; }
+  function acharItem(id) {
+    return orcamento.filter(function (x) { return String(x.id) === String(id); })[0] || null;
+  }
 
-  function alternar(id) {
-    var i = orcamento.indexOf(id);
-    if (i === -1) orcamento.push(id); else orcamento.splice(i, 1);
+  function noOrcamento(id) { return !!acharItem(id); }
+
+  function quantidade(id) {
+    var it = acharItem(id);
+    return it ? it.q : 0;
+  }
+
+  function somar(id, quanto) {
+    var it = acharItem(id);
+    if (!it) {
+      if (quanto <= 0) return;
+      orcamento.push({ id: id, q: quanto });
+    } else {
+      it.q += quanto;
+      if (it.q < 1) orcamento = orcamento.filter(function (x) { return x !== it; });
+    }
     salvar();
     pintarEstados();
     atualizarBarra();
+    if (document.getElementById('cortinaOrc')) desenharCarrinho();
   }
 
+  function definirQuantidade(id, q) {
+    var it = acharItem(id);
+    q = Math.max(0, Math.min(999, Math.round(q || 0)));
+    if (!it) { if (q > 0) orcamento.push({ id: id, q: q }); }
+    else if (q === 0) orcamento = orcamento.filter(function (x) { return x !== it; });
+    else it.q = q;
+    salvar();
+    pintarEstados();
+    atualizarBarra();
+    desenharCarrinho();
+  }
+
+  function alternar(id) {
+    if (noOrcamento(id)) abrirCarrinho();
+    else somar(id, 1);
+  }
+
+  /* ---------------------------------------------------------
+     Contas
+     --------------------------------------------------------- */
+  function precoNumero(p) {
+    if (p === null || p === undefined || p === '') return null;
+    var n = Number(String(p).replace(/\./g, '').replace(',', '.'));
+    return isNaN(n) ? null : n;
+  }
+
+  function dinheiro(n) {
+    return 'R$ ' + n.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+,)/g, '$1.');
+  }
+
+  function unidadeTexto(p, q) {
+    if (p.u === 'm') return q === 1 ? '1 metro' : q + ' metros';
+    if (p.u === 'pc') return q === 1 ? '1 peça' : q + ' peças';
+    return q + (q === 1 ? ' unidade' : ' unidades');
+  }
+
+  function contas() {
+    var linhas = [];
+    var total = 0;
+    var semPreco = 0;
+
+    orcamento.forEach(function (item) {
+      var p = PRODUTOS.filter(function (x) { return String(x.id) === String(item.id); })[0];
+      if (!p) return;
+      var unit = precoNumero(p.p);
+      var sub = unit === null ? null : unit * item.q;
+      if (sub === null) semPreco++; else total += sub;
+      linhas.push({ p: p, q: item.q, unit: unit, sub: sub });
+    });
+
+    return { linhas: linhas, total: total, semPreco: semPreco };
+  }
+
+  /* ---------------------------------------------------------
+     Barra flutuante
+     --------------------------------------------------------- */
   function atualizarBarra() {
     var barra = document.getElementById('barraOrc');
     var flutuante = document.querySelector('.zap-fixo');
     if (!barra) return;
 
-    if (!orcamento.length) {
+    var c = contas();
+    if (!c.linhas.length) {
       barra.classList.remove('on');
       if (flutuante) flutuante.classList.remove('escondido');
       return;
     }
+
     barra.classList.add('on');
     if (flutuante) flutuante.classList.add('escondido');
-    var q = orcamento.length;
+
+    var pecas = c.linhas.reduce(function (t, l) { return t + l.q; }, 0);
     barra.querySelector('.txt').innerHTML =
-      'Orçamento <span style="opacity:.5">|</span> <b>' + q + (q === 1 ? ' item' : ' itens') + '</b>';
+      '<b>' + pecas + (pecas === 1 ? ' item' : ' itens') + '</b>' +
+      '<span class="barra-total">' + (c.total > 0 ? dinheiro(c.total) : 'a consultar') + '</span>';
+  }
+
+  /* ---------------------------------------------------------
+     Carrinho
+     --------------------------------------------------------- */
+  var escolha = { loja: LOJAS[0].id, entrega: 'retirar', pagamento: PAGAMENTOS[0], endereco: '' };
+  try {
+    var salvo = JSON.parse(localStorage.getItem('neon.orcamento.escolha') || '{}');
+    escolha = Object.assign(escolha, salvo);
+  } catch (e) { /* segue com o padrao */ }
+
+  function salvarEscolha() {
+    try { localStorage.setItem('neon.orcamento.escolha', JSON.stringify(escolha)); } catch (e) {}
+  }
+
+  function criarCarrinho() {
+    if (document.getElementById('cortinaOrc')) return;
+    var d = document.createElement('div');
+    d.className = 'cortina-orc';
+    d.id = 'cortinaOrc';
+    d.hidden = true;
+    d.innerHTML =
+      '<div class="orc-janela" role="dialog" aria-modal="true" aria-label="Seu orçamento">' +
+        '<div class="orc-topo">' +
+          '<h3>Seu orçamento</h3>' +
+          '<button type="button" class="orc-fechar" aria-label="Fechar">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>' +
+          '</button>' +
+        '</div>' +
+        '<div class="orc-corpo" id="orcCorpo"></div>' +
+        '<div class="orc-pe" id="orcPe"></div>' +
+      '</div>';
+    document.body.appendChild(d);
+
+    d.addEventListener('click', function (ev) {
+      if (ev.target === d || ev.target.closest('.orc-fechar')) fecharCarrinho();
+    });
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape') fecharCarrinho();
+    });
+  }
+
+  function abrirCarrinho() {
+    criarCarrinho();
+    desenharCarrinho();
+    var d = document.getElementById('cortinaOrc');
+    d.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function fecharCarrinho() {
+    var d = document.getElementById('cortinaOrc');
+    if (!d) return;
+    d.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  function desenharCarrinho() {
+    var d = document.getElementById('cortinaOrc');
+    if (!d || d.hidden && !arguments.length) { /* segue, desenhar e barato */ }
+    if (!d) return;
+
+    var corpo = d.querySelector('#orcCorpo');
+    var pe = d.querySelector('#orcPe');
+    var c = contas();
+
+    if (!c.linhas.length) {
+      corpo.innerHTML = '<p class="orc-vazio">Seu orçamento está vazio. Toque no botão de mais em cima de qualquer produto para começar.</p>';
+      pe.innerHTML = '<a class="btn btn-linha btn-full" href="/produtos">Ver produtos</a>';
+      return;
+    }
+
+    var itens = c.linhas.map(function (l) {
+      var unit = l.unit === null ? 'a consultar' :
+        dinheiro(l.unit) + (l.p.u === 'm' ? ' o metro' : l.p.u === 'pc' ? ' a peça' : ' cada');
+      return '' +
+        '<div class="orc-item" data-item="' + escapaAtributo(l.p.id) + '">' +
+          '<div class="orc-foto">' + (l.p.foto ? '<img src="' + l.p.foto + '" alt="" loading="lazy">' : '') + '</div>' +
+          '<div class="orc-dados">' +
+            '<b>' + l.p.n + '</b>' +
+            '<span class="orc-unit">' + (l.p.m ? l.p.m + ' · ' : '') + unit + '</span>' +
+            '<div class="orc-qtd">' +
+              '<button type="button" data-menos aria-label="Menos um">-</button>' +
+              '<input type="number" inputmode="numeric" min="1" max="999" value="' + l.q + '" aria-label="Quantidade de ' + escapaAtributo(l.p.n) + '">' +
+              '<button type="button" data-mais aria-label="Mais um">+</button>' +
+              '<button type="button" class="orc-tirar" data-tirar aria-label="Tirar do orçamento">' +
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"/></svg>' +
+              '</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="orc-sub">' + (l.sub === null ? 'a consultar' : dinheiro(l.sub)) + '</div>' +
+        '</div>';
+    }).join('');
+
+    var lojas = LOJAS.map(function (l) {
+      return '' +
+        '<label class="orc-loja' + (escolha.loja === l.id ? ' on' : '') + '">' +
+          '<input type="radio" name="orcLoja" value="' + l.id + '"' + (escolha.loja === l.id ? ' checked' : '') + '>' +
+          '<span class="orc-loja-nome">' + l.nome + '</span>' +
+          '<span class="orc-loja-end">' + l.endereco + '</span>' +
+          '<span class="orc-loja-zap">' + l.mostra + '</span>' +
+        '</label>';
+    }).join('');
+
+    var pagamentos = PAGAMENTOS.map(function (f) {
+      return '<button type="button" class="orc-chip' + (escolha.pagamento === f ? ' on' : '') + '" data-pag="' + f + '">' + f + '</button>';
+    }).join('');
+
+    corpo.innerHTML =
+      '<div class="orc-itens">' + itens + '</div>' +
+      (c.semPreco ? '<p class="orc-aviso">Alguns itens estão sem preço no site. A loja confirma no WhatsApp.</p>' : '') +
+      '<div class="orc-bloco">' +
+        '<h4>Como você prefere receber</h4>' +
+        '<div class="orc-duplo">' +
+          '<button type="button" class="orc-chip grande' + (escolha.entrega === 'retirar' ? ' on' : '') + '" data-entrega="retirar">Retirar na loja</button>' +
+          '<button type="button" class="orc-chip grande' + (escolha.entrega === 'entrega' ? ' on' : '') + '" data-entrega="entrega">Entrega</button>' +
+        '</div>' +
+        (escolha.entrega === 'entrega'
+          ? '<input type="text" class="orc-endereco" id="orcEndereco" placeholder="Endereço para entrega, com bairro" value="' + escapaAtributo(escolha.endereco) + '">'
+          : '') +
+      '</div>' +
+      '<div class="orc-bloco">' +
+        '<h4>Forma de pagamento</h4>' +
+        '<div class="orc-chips">' + pagamentos + '</div>' +
+      '</div>' +
+      '<div class="orc-bloco">' +
+        '<h4>' + (escolha.entrega === 'entrega' ? 'Qual loja vai separar' : 'Em qual loja você retira') + '</h4>' +
+        '<div class="orc-lojas">' + lojas + '</div>' +
+      '</div>';
+
+    var loja = LOJAS.filter(function (l) { return l.id === escolha.loja; })[0] || LOJAS[0];
+    pe.innerHTML =
+      '<div class="orc-total">' +
+        '<span>Total</span>' +
+        '<b>' + (c.total > 0 ? dinheiro(c.total) : 'a consultar') + '</b>' +
+      '</div>' +
+      '<button type="button" class="btn btn-zap btn-full" id="orcEnviar">' +
+        '<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.7 15l-1.2 4.4 4.5-1.2A10 10 0 1 0 12 2zm5.6 14.1c-.2.6-1.2 1.2-1.7 1.2-.4 0-1 .1-3.3-.9-2.8-1.2-4.5-4-4.7-4.2-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.2.1.4.1.6-.1l.7-.9c.2-.2.3-.2.6-.1l2 1c.2.1.4.2.4.3.1.2.1.6-.1 1.2z"/></svg>' +
+        'Enviar para ' + loja.nome +
+      '</button>' +
+      '<span class="orc-nota">Os valores são os do site. A loja confirma tudo no WhatsApp.</span>';
+
+    ligarCarrinho();
+  }
+
+  function escapaAtributo(t) {
+    return String(t === null || t === undefined ? '' : t).replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  }
+
+  function ligarCarrinho() {
+    var d = document.getElementById('cortinaOrc');
+    if (!d) return;
+
+    d.querySelectorAll('.orc-item').forEach(function (linha) {
+      var id = linha.dataset.item;
+      linha.querySelector('[data-menos]').addEventListener('click', function () { somar(id, -1); });
+      linha.querySelector('[data-mais]').addEventListener('click', function () { somar(id, 1); });
+      linha.querySelector('[data-tirar]').addEventListener('click', function () { definirQuantidade(id, 0); });
+      var campo = linha.querySelector('input[type="number"]');
+      campo.addEventListener('change', function () { definirQuantidade(id, parseInt(campo.value, 10)); });
+    });
+
+    d.querySelectorAll('[data-entrega]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        escolha.entrega = b.dataset.entrega;
+        salvarEscolha();
+        desenharCarrinho();
+      });
+    });
+
+    d.querySelectorAll('[data-pag]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        escolha.pagamento = b.dataset.pag;
+        salvarEscolha();
+        desenharCarrinho();
+      });
+    });
+
+    d.querySelectorAll('input[name="orcLoja"]').forEach(function (r) {
+      r.addEventListener('change', function () {
+        escolha.loja = r.value;
+        salvarEscolha();
+        desenharCarrinho();
+      });
+    });
+
+    var endereco = d.querySelector('#orcEndereco');
+    if (endereco) {
+      endereco.addEventListener('input', function () {
+        escolha.endereco = endereco.value;
+        salvarEscolha();
+      });
+    }
+
+    var enviar = d.querySelector('#orcEnviar');
+    if (enviar) enviar.addEventListener('click', enviarOrcamento);
   }
 
   function textoOrcamento() {
-    var itens = orcamento.map(function (id) {
-      var p = PRODUTOS.filter(function (x) { return x.id === id; })[0];
-      return p ? '- ' + p.n + ' (' + p.m + ')' : null;
-    }).filter(Boolean);
-    return 'Olá! Montei um orçamento no site:\n\n' + itens.join('\n') +
-      '\n\nPodem me passar preço e disponibilidade?';
+    var c = contas();
+    var loja = LOJAS.filter(function (l) { return l.id === escolha.loja; })[0] || LOJAS[0];
+
+    var linhas = c.linhas.map(function (l, i) {
+      var titulo = (i + 1) + ') ' + unidadeTexto(l.p, l.q) + ' de ' + l.p.n +
+        (l.p.m ? ' (' + l.p.m + ')' : '');
+      var valor = l.unit === null
+        ? '   preço a consultar'
+        : '   ' + dinheiro(l.unit) + (l.p.u === 'm' ? ' o metro' : l.p.u === 'pc' ? ' a peça' : ' cada') +
+          ' = ' + dinheiro(l.sub);
+      return titulo + '\n' + valor;
+    });
+
+    var texto = 'Olá! Montei um orçamento no site.\n\n' + linhas.join('\n');
+    texto += '\n\nTotal: ' + (c.total > 0 ? dinheiro(c.total) : 'a consultar');
+    if (c.semPreco) texto += ' (mais os itens sem preço)';
+    if (escolha.entrega === 'entrega') {
+      texto += '\n\nEntrega' + (escolha.endereco ? ' em ' + escolha.endereco : '');
+      texto += '\nSeparar na loja ' + loja.nome;
+    } else {
+      texto += '\n\nRetirada na loja ' + loja.nome;
+      texto += '\n' + loja.endereco;
+    }
+    texto += '\nPagamento: ' + escolha.pagamento;
+    return texto;
+  }
+
+  function enviarOrcamento() {
+    var loja = LOJAS.filter(function (l) { return l.id === escolha.loja; })[0] || LOJAS[0];
+    window.open('https://wa.me/' + loja.zap + '?text=' + encodeURIComponent(textoOrcamento()), '_blank', 'noopener');
   }
 
   function pintarEstados() {
     document.querySelectorAll('[data-prod]').forEach(function (card) {
-      var dentro = noOrcamento(card.dataset.prod);
+      var id = card.dataset.prod;
+      var q = quantidade(id);
       var mais = card.querySelector('.prod-mais');
       var bt = card.querySelector('.bt-orc');
       if (mais) {
-        mais.classList.toggle('feito', dentro);
-        mais.innerHTML = dentro
-          ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5.5 5.5L20 7"/></svg>'
+        mais.classList.toggle('feito', q > 0);
+        mais.innerHTML = q > 0
+          ? '<b>' + q + '</b>'
           : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
-        mais.setAttribute('aria-label', dentro ? 'Remover do orçamento' : 'Adicionar ao orçamento');
+        mais.setAttribute('aria-label', q > 0 ? 'Mais um no orçamento' : 'Adicionar ao orçamento');
       }
       if (bt) {
-        bt.textContent = dentro ? 'Remover do orçamento' : 'Adicionar ao orçamento';
-        bt.className = 'btn btn-p bt-orc ' + (dentro ? 'btn-azul' : 'btn-azul-linha');
+        bt.textContent = q > 0 ? 'No orçamento, ver' : 'Adicionar ao orçamento';
+        bt.className = 'btn btn-p bt-orc ' + (q > 0 ? 'btn-azul' : 'btn-azul-linha');
       }
     });
   }
@@ -239,8 +563,9 @@
   if (barra) {
     barra.querySelector('.btn').addEventListener('click', function () {
       if (!orcamento.length) return;
-      window.open('https://wa.me/' + ZAP + '?text=' + encodeURIComponent(textoOrcamento()), '_blank');
+      abrirCarrinho();
     });
+    barra.querySelector('.ico').addEventListener('click', abrirCarrinho);
   }
 
   /* =========================================================
@@ -266,7 +591,7 @@
           '<button class="prod-mais" type="button" aria-label="Adicionar ao orçamento"></button>' +
         '</div>' +
         '<div class="prod-corpo">' +
-          '<span class="prod-cat">' + p.c + '</span>' +
+          '<span class="prod-cat">' + p.c + (p.m ? ' <span class="prod-marca">' + p.m + '</span>' : '') + '</span>' +
           '<h3>' + p.n + '</h3>' +
           '<p class="prod-disp">' + disp + '</p>' +
           '<button type="button" class="btn btn-p bt-orc btn-azul-linha">Adicionar ao orçamento</button>' +
@@ -277,9 +602,10 @@
   function ligarCartoes(raiz) {
     raiz.querySelectorAll('[data-prod]').forEach(function (card) {
       var id = card.dataset.prod;
-      [card.querySelector('.prod-mais'), card.querySelector('.bt-orc')].forEach(function (b) {
-        if (b) b.addEventListener('click', function () { alternar(id); });
-      });
+      var mais = card.querySelector('.prod-mais');
+      if (mais) mais.addEventListener('click', function () { somar(id, 1); });
+      var bt = card.querySelector('.bt-orc');
+      if (bt) bt.addEventListener('click', function () { alternar(id); });
     });
     pintarEstados();
   }
