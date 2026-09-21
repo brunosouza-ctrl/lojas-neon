@@ -136,7 +136,7 @@ header{position:sticky;top:0;z-index:80;background:#fff;border-bottom:1px solid 
 .hero-visual{position:absolute;right:0;top:0;bottom:0;width:58%;z-index:2}
 .hero-arco{position:absolute;inset:0;background:var(--amarelo);
   clip-path:ellipse(62.2% 71.05% at 70.7% 50%)}
-.hero-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 45%;
+.hero-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 38%;
   clip-path:ellipse(59.9% 68% at 70.7% 50%)}
 @media(max-width:1000px){
   .hero-visual{width:48%}
