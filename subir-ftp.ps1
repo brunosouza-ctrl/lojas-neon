@@ -38,13 +38,18 @@ $Servidor = $Servidor -replace '^ftp://', '' -replace '/$', ''
 $base = "ftp://$Servidor/" + ($PastaRemota.Trim('/'))
 $cred = New-Object System.Net.NetworkCredential($Usuario, $senha)
 
-function Enviar-Arquivo($origem, $destino) {
+# A hospedagem corta a conexao quando chegam muitas seguidas, e o envio
+# morre com "530 Nao conectado". Por isso a conexao e reaproveitada
+# (KeepAlive) e cada arquivo tem tres tentativas, esperando mais a cada vez.
+function Enviar-Uma-Vez($origem, $destino) {
   $req = [System.Net.FtpWebRequest]::Create($destino)
   $req.Credentials = $cred
   $req.Method = [System.Net.WebRequestMethods+Ftp]::UploadFile
   $req.UseBinary = $true
   $req.UsePassive = $true
-  $req.KeepAlive = $false
+  $req.KeepAlive = $true
+  $req.Timeout = 60000
+  $req.ServicePoint.ConnectionLimit = 2
   $bytes = [System.IO.File]::ReadAllBytes($origem)
   $req.ContentLength = $bytes.Length
   $fluxo = $req.GetRequestStream()
@@ -52,6 +57,19 @@ function Enviar-Arquivo($origem, $destino) {
   $fluxo.Close()
   $resp = $req.GetResponse()
   $resp.Close()
+}
+
+function Enviar-Arquivo($origem, $destino) {
+  $esperas = @(2, 6, 15)
+  for ($tentativa = 0; $tentativa -lt 4; $tentativa++) {
+    try {
+      Enviar-Uma-Vez $origem $destino
+      return
+    } catch {
+      if ($tentativa -eq 3) { throw }
+      Start-Sleep -Seconds $esperas[$tentativa]
+    }
+  }
 }
 
 function Criar-Pasta($destino) {
@@ -88,6 +106,20 @@ if ($Listar) {
   exit 0
 }
 
+# confere o login antes de comecar
+try {
+  $teste = [System.Net.FtpWebRequest]::Create("$base/")
+  $teste.Credentials = $cred
+  $teste.Method = [System.Net.WebRequestMethods+Ftp]::ListDirectory
+  $teste.Timeout = 30000
+  $respTeste = $teste.GetResponse()
+  $respTeste.Close()
+} catch {
+  Write-Host "Nao consegui entrar no FTP: $($_.Exception.Message)" -ForegroundColor Red
+  Write-Host "Confira usuario, senha e a pasta $PastaRemota." -ForegroundColor Yellow
+  exit 1
+}
+
 $arquivos = Get-ChildItem -Path $local -Recurse -File
 $pastas = Get-ChildItem -Path $local -Recurse -Directory
 
@@ -117,6 +149,7 @@ foreach ($a in $arquivos) {
   } catch {
     $erros += "$relativo : $($_.Exception.Message)"
   }
+  if ($i % 25 -eq 0) { Start-Sleep -Milliseconds 800 }
 }
 Write-Progress -Activity "Enviando para a hospedagem" -Completed
 
