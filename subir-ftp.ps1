@@ -17,7 +17,8 @@ param(
   [string]$Usuario = "",
   [string]$PastaRemota = "web",
   [string]$Apenas = "",
-  [switch]$Listar
+  [switch]$Listar,
+  [switch]$Descobrir
 )
 
 $ErrorActionPreference = "Stop"
@@ -102,6 +103,37 @@ if ($Listar) {
     } catch {
       Write-Host "  nao consegui listar: $($_.Exception.Message)" -ForegroundColor Yellow
     }
+  }
+  exit 0
+}
+
+# -Descobrir tenta as combinacoes comuns de usuario e servidor com a mesma
+# senha, e diz qual delas entrou. Serve quando o login recusa sem motivo claro.
+if ($Descobrir) {
+  $usuarios = @($Usuario, "$Usuario@lojasneon.com.br", "lojasneon.com.br", "$Usuario.com.br")
+  $servidores = @($Servidor, "ftp.uhserver.com")
+  $achou = $false
+  foreach ($srv in $servidores | Select-Object -Unique) {
+    foreach ($usr in $usuarios | Select-Object -Unique) {
+      $c = New-Object System.Net.NetworkCredential($usr, $senha)
+      try {
+        $r = [System.Net.FtpWebRequest]::Create("ftp://$srv/")
+        $r.Credentials = $c
+        $r.Method = [System.Net.WebRequestMethods+Ftp]::ListDirectory
+        $r.Timeout = 20000
+        $resp = $r.GetResponse(); $resp.Close()
+        Write-Host "ENTROU: servidor $srv, usuario $usr" -ForegroundColor Green
+        $achou = $true
+      } catch {
+        $motivo = $_.Exception.Message -replace '.*erro: ', ''
+        Write-Host "nao: $srv / $usr  ($motivo)" -ForegroundColor DarkGray
+      }
+      Start-Sleep -Milliseconds 700
+    }
+  }
+  if (-not $achou) {
+    Write-Host ""
+    Write-Host "Nenhuma combinacao entrou. A senha do FTP e outra: redefina no painel." -ForegroundColor Yellow
   }
   exit 0
 }

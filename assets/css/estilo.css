@@ -763,3 +763,8 @@ header{background:var(--azul);border-bottom:0}
   .orc-foto{width:48px;height:48px}
   .orc-sub{grid-column:2;justify-self:end;font-size:.95rem}
 }
+
+/* rodape: cada loja com seu par de telefones */
+.rodape-contato .rodape-loja{font-weight:700;color:#fff;margin-top:14px}
+.rodape-contato li:first-child{margin-top:0}
+.rodape-contato .rodape-horario{margin-top:14px;line-height:1.6}
