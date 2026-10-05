@@ -5,7 +5,25 @@ HTML, CSS e JavaScript puros. Sem build, sem framework, sem dependência de inst
 
 ## Publicação
 
-Domínio `lojasneon.com.br`, hospedagem na UOL Host (o cliente tem a conta). O site público vai
+Domínio `lojasneon.com.br`, hospedagem na UOL Host (o cliente tem a conta).
+
+**Migração para cPanel, outubro de 2026.** A UOL trocou a plataforma: o plano antigo
+("Hospedagem de Sites", pasta `web`) virou **cPanel, plano P**, servidor `a16-asgard25`,
+IP **186.234.81.65**, usuário `lojasneob83931cf`, e a pasta do site agora é **`public_html`**.
+Os arquivos foram migrados por eles, com a data de 23/09/2026.
+
+Isso derrubou o site em 03/10/2026: eles criaram a zona de DNS nova no cPanel
+(nameservers `ns1.cpuh25.hospedagemuolhost.com.br` e `ns2.cpuh25`), mas o dominio no
+Registro.br continua delegado para `ns1/ns2/ns3.dominios.uol.com.br`, cuja zona ainda
+aponta o registro A para o servidor velho, 187.17.111.35. Resultado: **502 Bad Gateway**
+em tudo, enquanto o site responde 200 quando acessado direto pelo IP novo. Chamado aberto
+na UOL em 05/10/2026. Se eles nao resolverem, a saida e trocar os nameservers no
+Registro.br (dominio em nome do CNPJ da loja).
+
+Quando voltar: no `subir-ftp.ps1` a pasta passa a ser `public_html` em vez de
+`lojasneon.com.br/web`, com o usuario e a senha do cPanel. E no cPanel, em Dominios,
+ligar o **Forçar Redirecionamento HTTPS**, porque a regra do `.htaccess` dependia do proxy
+da plataforma antiga (`X-Forwarded-Proto`), que nao existe mais. O site público vai
 sem o painel: `admin.html`, `admin.css` e `admin.js` ficam fora até o Supabase existir, senão o
 visitante cai num painel em modo demonstração. O pacote pronto sai em `publicar/` e
 `lojas-neon-publicar.zip`, os dois fora do git.
