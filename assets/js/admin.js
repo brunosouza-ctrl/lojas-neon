@@ -104,6 +104,16 @@
     return t.toLowerCase().replace(/(^|\s)(\S)/g, function (x, e, l) { return e + l.toUpperCase(); });
   }
 
+  /* "eletrica", "Elétrica" e "ELETRICA" sao a mesma categoria: adota a grafia
+     da lista sugerida, senao o site mostra duas prateleiras com o mesmo nome. */
+  function arrumaCategoria(c) {
+    var alvo = semAcento(c || '').trim();
+    for (var i = 0; i < CATEGORIAS_SUGERIDAS.length; i++) {
+      if (semAcento(CATEGORIAS_SUGERIDAS[i]) === alvo) return CATEGORIAS_SUGERIDAS[i];
+    }
+    return (c || '').trim();
+  }
+
   /* igual para efeito de importacao: ignora maiuscula, acento e espaco sobrando */
   function mesmoTexto(a, b) {
     return semAcento(String(a || '').trim()) === semAcento(String(b || '').trim());
@@ -967,7 +977,7 @@
 
   $('salvarProduto').addEventListener('click', function () {
     var nome = $('pNome').value.trim();
-    var categoria = $('pCategoria').value.trim();
+    var categoria = arrumaCategoria($('pCategoria').value);
     var codigo = soDigitos($('pCodigo').value);
     if (!nome) { recado('O produto precisa de um nome.', 'erro'); $('pNome').focus(); return; }
     if (!categoria) { recado('Escolha uma categoria.', 'erro'); $('pCategoria').focus(); return; }
@@ -1190,7 +1200,7 @@
           codigo_barras: codigo,
           nome: nome,
           marca: marcaBonita(marca),
-          categoria: categoria || 'Sem categoria',
+          categoria: arrumaCategoria(categoria) || 'Sem categoria',
           unidade: unidade || 'un',
           preco: preco === undefined ? null : preco,
           foto_url: '',

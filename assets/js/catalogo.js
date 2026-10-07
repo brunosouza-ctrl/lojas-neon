@@ -155,9 +155,20 @@
   var ORDEM_CATEGORIAS = ['Elétrica', 'Hidráulica', 'Chuveiros', 'Iluminação', 'Ventilação', 'Químicos', 'Bombas', 'Ferramentas', 'Ferragens'];
   var CATEGORIAS = ORDEM_CATEGORIAS.slice();
 
+  /* "Elétrica" e "elétrica" sao a mesma coisa para quem usa o site: o produto
+     adota a grafia conhecida, para nao virar duas prateleiras iguais. */
+  function arrumaCategoria(c) {
+    var alvo = semAcento(c || '').trim();
+    for (var i = 0; i < ORDEM_CATEGORIAS.length; i++) {
+      if (semAcento(ORDEM_CATEGORIAS[i]) === alvo) return ORDEM_CATEGORIAS[i];
+    }
+    return (c || '').trim();
+  }
+
   function apuraCategorias() {
     var achadas = [];
     PRODUTOS.forEach(function (p) {
+      p.c = arrumaCategoria(p.c);
       if (p.c && achadas.indexOf(p.c) === -1) achadas.push(p.c);
     });
     var conhecidas = ORDEM_CATEGORIAS.filter(function (c) { return achadas.indexOf(c) !== -1; });
@@ -801,6 +812,9 @@
 
   /* usado quando o banco responde depois da primeira pintura */
   window.NEON.redesenhar = function () {
+    /* o banco pode trazer categoria que nao existe no catalogo de exemplo,
+       entao a lista precisa ser refeita antes de redesenhar os chips */
+    apuraCategorias();
     desenharChips();
     render();
   };
