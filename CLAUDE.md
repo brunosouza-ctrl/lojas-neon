@@ -168,6 +168,23 @@ e o `supabase/carga-inicial.sql`.
 
 ## O que ainda falta
 
+### Pendente desde 07/10/2026, esperando o painel da UOL voltar
+- [ ] **Publicar a versão v56**, que já está pronta em `publicar/` e no zip. Corrige o filtro de
+      categoria do catálogo, que não era refeito quando os dados do banco chegavam, e por isso
+      produto de categoria nova (Ferramentas) ficava sem chip e parecia não ter entrado no site.
+- [ ] **O FTP antigo não serve mais.** `ftp.lojasneon.com.br` ainda aponta para 187.17.111.106,
+      o servidor desativado. Quem serve o site hoje é o cPanel. Publicar pelo Gerenciador de
+      Arquivos (subir o zip em `public_html` e extrair) ou criar conta nova em Contas de FTP.
+      O painel da UOL estava fora do ar nesse dia, e o cPanel direto também não abriu.
+- [ ] **Rodar `supabase/arruma-categorias.sql`**, que junta "Elétrica" com "elétrica" (53 + 30)
+      e arruma a marca `famastil`. Isso independe da UOL, é só no painel do Supabase.
+- [ ] Conferir no painel, filtro Situação, se há produto cadastrado e escondido do site.
+- [ ] **Registro.br**: o dono já assinou os documentos para trocar o e-mail de cadastro do
+      domínio, hoje com um antigo sócio. Bruno vai enviar. Depois disso, trocar os nameservers
+      para `ns1.cpuh25.hospedagemuolhost.com.br` e `ns2.cpuh25`, que é o arranjo definitivo.
+- [ ] No cPanel, ligar o **Forçar Redirecionamento HTTPS** em Domínios.
+
+
 - [ ] Logos das marcas para a esteira, em `assets/marcas/`. Hoje a esteira mostra em texto as marcas reais da planilha: Sil, Foxlux, Tramontina, Lorenzetti, Tigre, Zagonel, 3M, Elgin, Krona, Tron, Cibraflex
 - [x] Avaliações reais do Google e posts reais do Instagram (capas em `assets/img/insta/`)
 - [ ] Fotos reais das fachadas. Na home, os cartões das lojas mostram o mapa no lugar da foto. As fotos ilustrativas de Obra e Profissional continuam de banco livre, agora salvas em `assets/img/fotos/`
